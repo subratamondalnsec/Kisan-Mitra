@@ -50,8 +50,8 @@ export function farmerSignup(
       // Store in localStorage
       localStorage.setItem("user", JSON.stringify(userData));
       
-      // Navigate to farmer dashboard
-      navigate("/farmer/dashboard");
+      // Navigate to farmer profile (dashboard doesn't exist yet)
+      navigate("/farmer/profile");
       
     } catch (error) {
       console.log("FARMER SIGNUP API ERROR............", error);
@@ -65,8 +65,7 @@ export function farmerSignup(
 
 // Farmer Login
 export function farmerLogin(
-  email,
-  contactNumber,
+  emailOrContact,
   password,
   navigate
 ) {
@@ -77,11 +76,12 @@ export function farmerLogin(
     try {
       const loginData = { password };
       
-      // Add email or contactNumber to login data
-      if (email) {
-        loginData.email = email;
-      } else if (contactNumber) {
-        loginData.contactNumber = contactNumber;
+      // Determine if it's email or contact number
+      const isEmail = emailOrContact.includes('@');
+      if (isEmail) {
+        loginData.email = emailOrContact;
+      } else {
+        loginData.contactNumber = emailOrContact;
       }
 
       const response = await apiConnector("POST", FarmerAuthAPI.LOGIN_API, loginData);
@@ -101,7 +101,7 @@ export function farmerLogin(
         `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName}%20${response.data.user.lastName}`;
       
       const userData = { 
-        ...response.data.user, 
+        ...response.data.user,
         image: userImage,
         role: 'farmer'
       };
@@ -111,8 +111,8 @@ export function farmerLogin(
       // Store in localStorage
       localStorage.setItem("user", JSON.stringify(userData));
       
-      // Navigate to farmer dashboard
-      navigate("/farmer/dashboard");
+      // Navigate to farmer profile (dashboard doesn't exist yet)
+      navigate("/farmer/profile");
       
     } catch (error) {
       console.log("FARMER LOGIN API ERROR............", error);

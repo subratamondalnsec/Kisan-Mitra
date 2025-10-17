@@ -12,8 +12,6 @@ export function dealerSignup(
   contactNumber,
   whatsappNumber,
   businessAddress,
-  documents,
-  preferredLanguage,
   navigate
 ) {
   return async (dispatch) => {
@@ -29,8 +27,6 @@ export function dealerSignup(
         contactNumber,
         whatsappNumber,
         businessAddress,
-        documents,
-        preferredLanguage,
       });
 
       console.log("DEALER SIGNUP API RESPONSE............", response);
@@ -48,7 +44,7 @@ export function dealerSignup(
         `https://api.dicebear.com/5.x/initials/svg?seed=${FullName}%20${lastName}`;
       
       const userData = { 
-        ...response.data.user, 
+        ...response.data.user,
         image: userImage,
         role: 'dealer'
       };
@@ -58,8 +54,8 @@ export function dealerSignup(
       // Store in localStorage
       localStorage.setItem("user", JSON.stringify(userData));
       
-      // Navigate to dealer dashboard
-      navigate("/dealer/dashboard");
+      // Navigate to dealer profile (dashboard doesn't exist yet)
+      navigate("/dealer/profile");
       
     } catch (error) {
       console.log("DEALER SIGNUP API ERROR............", error);
@@ -73,8 +69,7 @@ export function dealerSignup(
 
 // Dealer Login
 export function dealerLogin(
-  email,
-  contactNumber,
+  emailOrContact,
   password,
   navigate
 ) {
@@ -85,11 +80,12 @@ export function dealerLogin(
     try {
       const loginData = { password };
       
-      // Add email or contactNumber to login data
-      if (email) {
-        loginData.email = email;
-      } else if (contactNumber) {
-        loginData.contactNumber = contactNumber;
+      // Determine if it's email or contact number
+      const isEmail = emailOrContact.includes('@');
+      if (isEmail) {
+        loginData.email = emailOrContact;
+      } else {
+        loginData.contactNumber = emailOrContact;
       }
 
       const response = await apiConnector("POST", DealerAuthAPI.LOGIN_API, loginData);
@@ -109,7 +105,7 @@ export function dealerLogin(
         `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.FullName}%20${response.data.user.lastName}`;
       
       const userData = { 
-        ...response.data.user, 
+        ...response.data.user,
         image: userImage,
         role: 'dealer'
       };
@@ -119,8 +115,8 @@ export function dealerLogin(
       // Store in localStorage
       localStorage.setItem("user", JSON.stringify(userData));
       
-      // Navigate to dealer dashboard
-      navigate("/dealer/dashboard");
+      // Navigate to dealer profile (dashboard doesn't exist yet)
+      navigate("/dealer/profile");
       
     } catch (error) {
       console.log("DEALER LOGIN API ERROR............", error);
