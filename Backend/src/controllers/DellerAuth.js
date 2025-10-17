@@ -93,7 +93,8 @@ exports.signup = async (req, res) => {
         pincode: businessAddress.pincode,
         landmark: businessAddress.landmark,
         coordinates: businessAddress.coordinates || {}
-      }
+      },
+      image: `https://api.dicebear.com/5.x/initials/svg?seed=${FullName}%20${lastName}`
     });
 
     // Use token generator utility function for response
@@ -205,7 +206,7 @@ exports.updateProfile = async (req, res) => {
     // Fields that can be updated
     const allowedUpdates = [
       'FullName', 'lastName', 'contactNumber', 'whatsappNumber', 
-      'businessAddress'
+      'businessAddress', 'image'
     ];
 
     // Update only allowed fields
@@ -231,7 +232,8 @@ exports.updateProfile = async (req, res) => {
           businessName: dealer.businessAddress.businessName,
           businessAddress: dealer.businessAddress,
           averageRating: dealer.averageRating,
-          isVerified: dealer.isVerified
+          isVerified: dealer.isVerified,
+          image: dealer.image
         }
       }
     });

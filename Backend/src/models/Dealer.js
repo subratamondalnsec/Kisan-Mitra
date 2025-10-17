@@ -54,6 +54,13 @@ const dealerSchema = new mongoose.Schema({
       message: 'Please provide a valid 10-digit WhatsApp number'
     }
   },
+  
+  // Profile Image
+  image: {
+    type: String,
+    default: `https://api.dicebear.com/5.x/initials/svg?seed=${this.FullName}%20${this.lastName}`
+  },
+  
   // Business Address
   businessAddress: {
     businessName: {

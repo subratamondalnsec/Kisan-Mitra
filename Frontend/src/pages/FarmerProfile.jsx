@@ -11,7 +11,16 @@ const FarmerProfile = () => {
     lastName: '',
     email: '',
     contactNumber: '',
-    image: ''
+    image: '',
+    address: {
+      street: '',
+      village: '',
+      tehsil: '',
+      district: '',
+      state: '',
+      pincode: '',
+      country: 'India'
+    }
   });
 
   useEffect(() => {
@@ -27,16 +36,38 @@ const FarmerProfile = () => {
         lastName: user.lastName || '',
         email: user.email || '',
         contactNumber: user.contactNumber || '',
-        image: user.image || ''
+        image: user.image || '',
+        address: user.address || {
+          street: '',
+          village: '',
+          tehsil: '',
+          district: '',
+          state: '',
+          pincode: '',
+          country: 'India'
+        }
       });
     }
   }, [user]);
 
   const handleChange = (e) => {
-    setProfileData({
-      ...profileData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    
+    if (name.startsWith('address.')) {
+      const field = name.split('.')[1];
+      setProfileData({
+        ...profileData,
+        address: {
+          ...profileData.address,
+          [field]: value
+        }
+      });
+    } else {
+      setProfileData({
+        ...profileData,
+        [name]: value
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -55,7 +86,16 @@ const FarmerProfile = () => {
         lastName: user.lastName || '',
         email: user.email || '',
         contactNumber: user.contactNumber || '',
-        image: user.image || ''
+        image: user.image || '',
+        address: user.address || {
+          street: '',
+          village: '',
+          tehsil: '',
+          district: '',
+          state: '',
+          pincode: '',
+          country: 'India'
+        }
       });
     }
     setIsEditing(false);
@@ -101,6 +141,19 @@ const FarmerProfile = () => {
             <p><strong>Contact Number:</strong> {user.contactNumber || 'Not provided'}</p>
             <p><strong>Role:</strong> Farmer</p>
           </div>
+
+          {user.address && (
+            <div style={{ padding: '15px', backgroundColor: '#f8f9fa', borderRadius: '5px' }}>
+              <h3>Address Information</h3>
+              <p><strong>Street:</strong> {user.address.street || 'Not provided'}</p>
+              <p><strong>Village:</strong> {user.address.village || 'Not provided'}</p>
+              <p><strong>Tehsil:</strong> {user.address.tehsil || 'Not provided'}</p>
+              <p><strong>District:</strong> {user.address.district || 'Not provided'}</p>
+              <p><strong>State:</strong> {user.address.state || 'Not provided'}</p>
+              <p><strong>Pin Code:</strong> {user.address.pincode || 'Not provided'}</p>
+              <p><strong>Country:</strong> {user.address.country || 'India'}</p>
+            </div>
+          )}
           
           <button 
             onClick={() => setIsEditing(true)}
@@ -207,6 +260,136 @@ const FarmerProfile = () => {
               value={profileData.image}
               onChange={handleChange}
               placeholder="https://example.com/image.jpg"
+              style={{ 
+                width: '100%', 
+                padding: '10px', 
+                border: '1px solid #ccc',
+                borderRadius: '5px'
+              }}
+            />
+          </div>
+
+          <h4 style={{ margin: '20px 0 10px 0', color: '#333' }}>Address Information</h4>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+              Street:
+            </label>
+            <input
+              type="text"
+              name="address.street"
+              value={profileData.address.street}
+              onChange={handleChange}
+              style={{ 
+                width: '100%', 
+                padding: '10px', 
+                border: '1px solid #ccc',
+                borderRadius: '5px'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+              Village:
+            </label>
+            <input
+              type="text"
+              name="address.village"
+              value={profileData.address.village}
+              onChange={handleChange}
+              style={{ 
+                width: '100%', 
+                padding: '10px', 
+                border: '1px solid #ccc',
+                borderRadius: '5px'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+              Tehsil:
+            </label>
+            <input
+              type="text"
+              name="address.tehsil"
+              value={profileData.address.tehsil}
+              onChange={handleChange}
+              style={{ 
+                width: '100%', 
+                padding: '10px', 
+                border: '1px solid #ccc',
+                borderRadius: '5px'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+              District:
+            </label>
+            <input
+              type="text"
+              name="address.district"
+              value={profileData.address.district}
+              onChange={handleChange}
+              style={{ 
+                width: '100%', 
+                padding: '10px', 
+                border: '1px solid #ccc',
+                borderRadius: '5px'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+              State:
+            </label>
+            <input
+              type="text"
+              name="address.state"
+              value={profileData.address.state}
+              onChange={handleChange}
+              style={{ 
+                width: '100%', 
+                padding: '10px', 
+                border: '1px solid #ccc',
+                borderRadius: '5px'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+              Pin Code:
+            </label>
+            <input
+              type="text"
+              name="address.pincode"
+              value={profileData.address.pincode}
+              onChange={handleChange}
+              pattern="[0-9]{6}"
+              title="Please enter a valid 6-digit pin code"
+              style={{ 
+                width: '100%', 
+                padding: '10px', 
+                border: '1px solid #ccc',
+                borderRadius: '5px'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+              Country:
+            </label>
+            <input
+              type="text"
+              name="address.country"
+              value={profileData.address.country}
+              onChange={handleChange}
               style={{ 
                 width: '100%', 
                 padding: '10px', 

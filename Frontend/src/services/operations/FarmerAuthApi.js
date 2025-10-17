@@ -36,6 +36,7 @@ export function farmerSignup(
       // Set token and user data
       dispatch(setToken(response.data.token));
       
+      // Use image from response or fallback to generated one
       const userImage = response.data?.user?.image || 
         `https://api.dicebear.com/5.x/initials/svg?seed=${firstName}%20${lastName}`;
       
@@ -97,6 +98,7 @@ export function farmerLogin(
       // Set token and user data
       dispatch(setToken(response.data.token));
       
+      // Use image from response or fallback to generated one
       const userImage = response.data?.user?.image || 
         `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName}%20${response.data.user.lastName}`;
       

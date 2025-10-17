@@ -178,7 +178,7 @@ exports.updateProfile = async (req, res) => {
 
     // Fields that can be updated
     const allowedUpdates = [
-      'firstName', 'lastName', 'contactNumber', 'address'
+      'firstName', 'lastName', 'contactNumber', 'address', 'image'
     ];
 
     // Update only allowed fields
@@ -200,7 +200,8 @@ exports.updateProfile = async (req, res) => {
           lastName: farmer.lastName,
           email: farmer.email,
           contactNumber: farmer.contactNumber,
-          address: farmer.address
+          address: farmer.address,
+          image: farmer.image
         }
       }
     });
