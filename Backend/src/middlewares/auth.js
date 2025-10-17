@@ -28,8 +28,12 @@ exports.auth=async(req,res,next)=>{
         try{
             const decoded=jwt.verify(token,process.env.JWT_SECRET);
             console.log(decoded);
-            req.user=decoded
-            
+            if(decoded.role==="Farmer"){
+                req.farmer=decoded
+            }
+            else if(decoded.role==="Dealer"){
+                req.dealer=decoded
+            }
         }
         catch(err){
             return res.status(401).json({
@@ -37,7 +41,7 @@ exports.auth=async(req,res,next)=>{
                 message: "Invalid token",
             });
         }
-        next(); 
+        next();
     }
     catch(err){
         console.error(err);
