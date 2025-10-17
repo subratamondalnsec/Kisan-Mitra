@@ -1,10 +1,16 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const dealerSchema = new mongoose.Schema({
   // Basic Information
-  name: {
+  FullName: {
     type: String,
-    required: true
+    required: true,
+    trim: true
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true
   },
   role: {
     type: String,
@@ -13,19 +19,40 @@ const dealerSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    trim: true,
+    lowercase: true,
+    validate: {
+      validator: function(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      },
+      message: 'Please provide a valid email address'
+    }
   },
   password: {
     type: String,
     required: true
   },
-  phone: {
+  contactNumber: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
+    validate: {
+      validator: function(phone) {
+        return /^[6-9]\d{9}$/.test(phone);
+      },
+      message: 'Please provide a valid 10-digit contact number'
+    }
   },
   whatsappNumber:{
     type: String,
-    required: true
+    required: true,
+    validate: {
+      validator: function(phone) {
+        return /^[6-9]\d{9}$/.test(phone);
+      },
+      message: 'Please provide a valid 10-digit WhatsApp number'
+    }
   },
   // Business Address
   businessAddress: {
@@ -111,43 +138,12 @@ const dealerSchema = new mongoose.Schema({
     }
   }],
 
-  // Crops/Products Available
+  // Crops/Products References (ObjectIDs to separate Crop collection)
   crops: [{
-    category: {
-      type: String,
-      enum: ['Seeds', 'Fertilizers', 'Pesticides', 'Equipment', 'Grains', 'Vegetables', 'Fruits', 'Other'],
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    minQuantity: {
-      type: Number,
-      required: true,
-      min: 0
-    },
-    maxQuantity: {
-      type: Number,
-      required: true,
-      min: 0
-    },
-    pricePerUnit: {
-      type: Number,
-      required: true,
-      min: 0
-    },
-    unit: {
-      type: String,
-      enum: [ 'quintal'],
-      required: true
-    },
-    harvestDate: Date,
-    isAvailable: {
-      type: Boolean,
-      default: true
-    }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Crop'
   }],
+  
 
   // Verification Status
   isVerified: {
@@ -158,4 +154,4 @@ const dealerSchema = new mongoose.Schema({
 
 },{timestamps: true});
 
-export default mongoose.model("Dealer", dealerSchema);
+module.exports = mongoose.model("Dealer", dealerSchema);

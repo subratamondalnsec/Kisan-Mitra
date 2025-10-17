@@ -5,11 +5,6 @@ const farmerLoanSchema = new mongoose.Schema({
         ref: 'Farmer',
         required: true
     },
-    loanId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Loan',
-        required: true
-    },
     status: {
         type: String,
         enum: ['Pending', 'Approved', 'Rejected'],
@@ -100,4 +95,4 @@ const farmerLoanSchema = new mongoose.Schema({
     },
 });
 
-export default mongoose.model("FarmerLoan", farmerLoanSchema);
+module.exports = mongoose.model("FarmerLoan", farmerLoanSchema);

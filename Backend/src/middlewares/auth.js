@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const User = require('../models/User');
+const Dealer = require('../models/Dealer');
+const Farmer = require('../models/Farmer');
 
 
  //auth
@@ -28,10 +29,10 @@ exports.auth=async(req,res,next)=>{
         try{
             const decoded=jwt.verify(token,process.env.JWT_SECRET);
             console.log(decoded);
-            if(decoded.role==="Farmer"){
+            if(decoded.role==="farmer"){
                 req.farmer=decoded
             }
-            else if(decoded.role==="Dealer"){
+            else if(decoded.role==="dealer"){
                 req.dealer=decoded
             }
         }

@@ -3,9 +3,20 @@ const dbconnect = require('./config/database');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 
+
+// Import routes
+const dealerRoutes = require('./routes/dealerRoutes');
+const farmerRoutes = require('./routes/farmerRoutes');
+
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
+
+// Mount routes
+app.use('/api/v1/dealer', dealerRoutes);
+app.use('/api/v1/farmer', farmerRoutes);
 
 const PORT = process.env.PORT || 4000;
 

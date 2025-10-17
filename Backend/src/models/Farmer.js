@@ -2,26 +2,54 @@ const mongoose =require("mongoose");
 
 const farmerSchema = new mongoose.Schema({
   // Basic Information
-  name: {
+  firstName: {
     type: String,
-    required: true
+    required: true,
+    trim: true
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    trim: true,
+    lowercase: true,
+    validate: {
+      validator: function(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      },
+      message: 'Please provide a valid email address'
+    }
   },
   password: {
     type: String,
     required: true
   },
-  phone: {
+  contactNumber: {
     type: String,
     required: true,
+    unique: true,
+    validate: {
+      validator: function(phone) {
+        return /^[6-9]\d{9}$/.test(phone);
+      },
+      message: 'Please provide a valid 10-digit contact number'
+    }
   },
   role:{
     type: String,
     default: 'farmer'
+  },
+  image:{
+    type: String,
+    required: false,
+    default: function() {
+      return `https://api.dicebear.com/5.x/initials/svg?seed=${this.firstName}%20${this.lastName}`;
+    }
   },
   // Address Information
   address: {
@@ -76,4 +104,4 @@ const farmerSchema = new mongoose.Schema({
   
 },{timestamps:true});
 
-export default mongoose.model("Farmer", farmerSchema);
+module.exports = mongoose.model("Farmer", farmerSchema);
