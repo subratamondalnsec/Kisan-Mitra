@@ -7,15 +7,13 @@ const {
   updateCrop, 
   deleteCrop, 
   getAllCrops, 
-  getFilterCrops,
-  getCropCategories 
+  getFilterCrops 
 } = require('../controllers/CropController');
 const { auth } = require('../middlewares/auth');
 
 // Public routes (for farmers to browse crops)
 router.get('/public', getAllCrops);
 router.get('/filter', getFilterCrops);
-router.get('/categories', getCropCategories);
 
 // Protected routes (for dealers to manage their crops)
 router.post('/', auth, createCrop);

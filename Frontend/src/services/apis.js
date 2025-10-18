@@ -13,3 +13,13 @@ export const DealerAuthAPI = {
     GET_PROFILE_API: BASE_URL + "dealer/profile",
     UPDATE_PROFILE_API: BASE_URL + "dealer/profile",
 }
+
+export const CropAPI = {
+    CREATE_CROP: BASE_URL + "crops",
+    GET_DEALER_CROPS: BASE_URL + "crops",
+    GET_CROP_BY_ID: BASE_URL + "crops/",
+    UPDATE_CROP: BASE_URL + "crops/",
+    DELETE_CROP: BASE_URL + "crops/",
+    GET_ALL_CROPS: BASE_URL + "crops/public",
+    GET_FILTERED_CROPS: BASE_URL + "crops/filter",
+}

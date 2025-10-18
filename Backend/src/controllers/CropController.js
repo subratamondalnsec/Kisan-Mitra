@@ -354,7 +354,7 @@ exports.getAllCrops = async (req, res) => {
   try {
     // Get all crops with dealer information
     const crops = await Crop.find({})
-      .populate('dealerId', 'FullName lastName businessAddress averageRating isVerified contactNumber')
+      .populate('dealerId', 'FullName lastName businessAddress averageRating isVerified contactNumber whatsappNumber image')
       .sort({ createdAt: -1 });
 
     // Group crops by dealer
@@ -372,8 +372,10 @@ exports.getAllCrops = async (req, res) => {
             lastName: crop.dealerId.lastName,
             businessAddress: crop.dealerId.businessAddress,
             contactNumber: crop.dealerId.contactNumber,
+            whatsappNumber: crop.dealerId.whatsappNumber,
             averageRating: crop.dealerId.averageRating,
-            isVerified: crop.dealerId.isVerified
+            isVerified: crop.dealerId.isVerified,
+            image: crop.dealerId.image
           },
           crops: [],
           totalCrops: 0
@@ -443,15 +445,19 @@ exports.getFilterCrops = async (req, res) => {
 
     // Get filtered crops with dealer information
     const crops = await Crop.find(query)
-      .populate('dealerId', 'FullName lastName businessAddress averageRating isVerified contactNumber')
+      .populate('dealerId', 'FullName lastName businessAddress averageRating isVerified contactNumber whatsappNumber image')
       .sort({ createdAt: -1 });
 
-    // Filter by location if provided (dealer's city/district)
+    // Filter by location if provided (dealer's city/district/area/street/pincode)
     let filteredCrops = crops;
     if (location) {
       filteredCrops = crops.filter(crop => 
         crop.dealerId.businessAddress.city.toLowerCase().includes(location.toLowerCase()) ||
-        crop.dealerId.businessAddress.district.toLowerCase().includes(location.toLowerCase())
+        crop.dealerId.businessAddress.district.toLowerCase().includes(location.toLowerCase()) ||
+        crop.dealerId.businessAddress.area.toLowerCase().includes(location.toLowerCase()) ||
+        crop.dealerId.businessAddress.street.toLowerCase().includes(location.toLowerCase()) ||
+        crop.dealerId.businessAddress.pincode.includes(location) ||
+        crop.dealerId.businessAddress.landmark.toLowerCase().includes(location.toLowerCase())
       );
     }
 
@@ -470,8 +476,10 @@ exports.getFilterCrops = async (req, res) => {
             lastName: crop.dealerId.lastName,
             businessAddress: crop.dealerId.businessAddress,
             contactNumber: crop.dealerId.contactNumber,
+            whatsappNumber: crop.dealerId.whatsappNumber,
             averageRating: crop.dealerId.averageRating,
-            isVerified: crop.dealerId.isVerified
+            isVerified: crop.dealerId.isVerified,
+            image: crop.dealerId.image
           },
           crops: [],
           totalCrops: 0
@@ -508,27 +516,6 @@ exports.getFilterCrops = async (req, res) => {
 
   } catch (error) {
     console.error('Get filtered crops error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error. Please try again later.',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
-  }
-};
-
-// Get crop categories (for filter dropdowns)
-exports.getCropCategories = async (req, res) => {
-  try {
-    const categories = await Crop.distinct('category');
-    
-    res.status(200).json({
-      success: true,
-      message: "Crop categories retrieved successfully",
-      data: { categories }
-    });
-
-  } catch (error) {
-    console.error('Get crop categories error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error. Please try again later.',
