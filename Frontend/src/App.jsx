@@ -5,6 +5,8 @@ import FarmerProfile from './pages/FarmerProfile';
 import DealerProfile from './pages/DealerProfile';
 import DealerDashboard from './pages/DealerDashboard';
 import FarmerEmandi from './pages/FarmerEmandi';
+import DealerLanguage from './pages/DealerLanguage';
+import FarmerLanguage from './pages/FarmerLanguage';
 import Home from './components/Core/Home';
 import "./App.css";
 
@@ -18,6 +20,8 @@ function App() {
         <Route path="/dealer/profile" element={<DealerProfile />} />
         <Route path="/dealer/dashboard" element={<DealerDashboard />} />
         <Route path="/farmer/emandi" element={<FarmerEmandi />} />
+        <Route path="/dealer/language" element={<DealerLanguage />} />
+        <Route path="/farmer/language" element={<FarmerLanguage />} />
       </Routes>
     </div>
   );

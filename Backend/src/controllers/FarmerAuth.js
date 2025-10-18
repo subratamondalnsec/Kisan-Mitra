@@ -216,3 +216,92 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
+// Update farmer preferred language
+exports.updatePreferredLanguage = async (req, res) => {
+  try {
+    const { preferredLanguage } = req.body;
+
+    // Validate language input
+    const allowedLanguages = ['Hindi', 'English', 'Bengali'];
+    if (!preferredLanguage || !allowedLanguages.includes(preferredLanguage)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid language. Allowed languages: Hindi, English, Bengali'
+      });
+    }
+
+    const farmer = await Farmer.findById(req.farmer.id);
+
+    if (!farmer) {
+      return res.status(404).json({
+        success: false,
+        message: 'Farmer not found'
+      });
+    }
+
+    // Update preferred language
+    farmer.preferredLanguage = preferredLanguage;
+    await farmer.save();
+
+    res.status(200).json({
+      success: true,
+      message: `Language updated to ${preferredLanguage} successfully`,
+      data: {
+        farmer: {
+          id: farmer._id,
+          firstName: farmer.firstName,
+          lastName: farmer.lastName,
+          email: farmer.email,
+          preferredLanguage: farmer.preferredLanguage,
+          image: farmer.image
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Update farmer language error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error. Please try again later.',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+// Get farmer preferred language
+exports.getPreferredLanguage = async (req, res) => {
+  try {
+    const farmer = await Farmer.findById(req.farmer.id).select('preferredLanguage firstName lastName email');
+
+    if (!farmer) {
+      return res.status(404).json({
+        success: false,
+        message: 'Farmer not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Preferred language retrieved successfully',
+      data: {
+        preferredLanguage: farmer.preferredLanguage || 'English',
+        farmer: {
+          id: farmer._id,
+          firstName: farmer.firstName,
+          lastName: farmer.lastName,
+          email: farmer.email,
+          preferredLanguage: farmer.preferredLanguage || 'English'
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Get farmer language error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error. Please try again later.',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
