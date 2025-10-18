@@ -13,34 +13,14 @@ const cropSchema = new mongoose.Schema({
     type: String,
     enum: ['Seeds', 'Fertilizers', 'Pesticides', 'Equipment', 'Grains', 'Vegetables', 'Fruits', 'Other'],
     required: true,
-    index: true
   },
   
   name: {
     type: String,
     required: true,
     trim: true,
-    index: true
   },
-  
-  variety: {
-    type: String,
-    trim: true
-  },
-  
-  description: {
-    type: String,
-    trim: true
-  },
-  
-  // Quantity and Pricing (Updates Daily)
-  currentQuantity: {
-    type: Number,
-    required: true,
-    min: 0,
-    default: 0
-  },
-  
+
   minQuantity: {
     type: Number,
     required: true,
@@ -63,7 +43,11 @@ const cropSchema = new mongoose.Schema({
     type: String,
     default: 'quintal',
   },
-  harvestDate: Date,
+  
+  harvestDate: {
+    type: Date,
+    default: Date.now
+  },
   
 }, {
   timestamps: true

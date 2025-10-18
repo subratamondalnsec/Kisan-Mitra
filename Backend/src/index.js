@@ -8,6 +8,7 @@ const cors = require("cors");
 // Import routes
 const dealerRoutes = require('./routes/dealerRoutes');
 const farmerRoutes = require('./routes/farmerRoutes');
+const cropRoutes = require('./routes/cropRoutes');
 
 const app = express();
 const allowedOrigins = [
@@ -36,6 +37,7 @@ app.use(cookieParser());
 // Mount routes
 app.use('/api/v1/dealer', dealerRoutes);
 app.use('/api/v1/farmer', farmerRoutes);
+app.use('/api/v1/crops', cropRoutes);
 
 const PORT = process.env.PORT || 4000;
 
