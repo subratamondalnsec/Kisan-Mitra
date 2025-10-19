@@ -5,6 +5,8 @@ export const FarmerAuthAPI = {
     LOGIN_API: BASE_URL + "farmer/login",
     GET_PROFILE_API: BASE_URL + "farmer/profile",
     UPDATE_PROFILE_API: BASE_URL + "farmer/profile",
+    GET_LANGUAGE_API: BASE_URL + "farmer/language",
+    UPDATE_LANGUAGE_API: BASE_URL + "farmer/language",
 }
 
 export const DealerAuthAPI = {
@@ -12,6 +14,8 @@ export const DealerAuthAPI = {
     LOGIN_API: BASE_URL + "dealer/login",
     GET_PROFILE_API: BASE_URL + "dealer/profile",
     UPDATE_PROFILE_API: BASE_URL + "dealer/profile",
+    GET_LANGUAGE_API: BASE_URL + "dealer/language",
+    UPDATE_LANGUAGE_API: BASE_URL + "dealer/language",
 }
 
 export const CropAPI = {
