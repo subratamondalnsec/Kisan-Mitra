@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDealerProfile, updateDealerProfile } from '../services/operations/DealerAuthApI';
+import DealerNavbar from '../components/Common/DealerNavbar';
 
 const DealerProfile = () => {
   const dispatch = useDispatch();
@@ -143,6 +144,7 @@ const DealerProfile = () => {
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+      <DealerNavbar />
       <h1>Dealer Profile</h1>
       
       {!isEditing ? (

@@ -7,6 +7,7 @@ import {
   deleteCropAction 
 } from '../services/operations/cropApi';
 import { CROP_CATEGORIES } from '../constants/cropCategories';
+import DealerNavbar from '../components/Common/DealerNavbar';
 
 const DealerDashboard = () => {
   const dispatch = useDispatch();
@@ -100,6 +101,7 @@ const DealerDashboard = () => {
 
   return (
     <div className="p-5">
+      <DealerNavbar />
       <h1 className="text-2xl font-bold mb-6 text-gray-800">Dealer Dashboard</h1>
       
       {/* Add Crop Button */}

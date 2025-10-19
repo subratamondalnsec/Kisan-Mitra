@@ -5,6 +5,7 @@ import {
   getFilteredCrops 
 } from '../services/operations/cropApi';
 import { CROP_CATEGORIES } from '../constants/cropCategories';
+import FarmerNavbar from '../components/Common/FarmerNavbar';
 
 const FarmerEmandi = () => {
   const dispatch = useDispatch();
@@ -74,6 +75,7 @@ const FarmerEmandi = () => {
 
   return (
     <div style={{ padding: '20px' }}>
+      <FarmerNavbar />
       <h1>Farmer E-Mandi</h1>
       
       {/* Search and Filter Section */}
