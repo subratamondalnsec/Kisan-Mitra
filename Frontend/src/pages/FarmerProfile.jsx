@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFarmerProfile, updateFarmerProfile } from '../services/operations/FarmerAuthApi';
+import FarmerNavbar from '../components/Common/FarmerNavbar';
 
 const FarmerProfile = () => {
   const dispatch = useDispatch();
@@ -112,6 +113,7 @@ const FarmerProfile = () => {
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+      <FarmerNavbar />
       <h1>Farmer Profile</h1>
       
       {!isEditing ? (
