@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import NavLinks from './NavbarComponents/NavLinks';
 import LanguageSelector from './NavbarComponents/LanguageSelector';
 import ProfileDropdown from './NavbarComponents/ProfileDropdown';
-// import MobileNavLinks from './NavbarComponents/MobileNavLinks';
 
 const FarmerNavbar = () => {
   const navigate = useNavigate();

@@ -1,68 +1,100 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import Lenis from "lenis";
+import Testimonials from "./homeComponents/testimonialSection";
+import Footer from "./homeComponents/footer";
+import Statistics from "./homeComponents/statisticsSection";
+import Features from "./homeComponents/featureSection";
+import Navbar from "./homeComponents/navbar";
+import HeroSection from "./homeComponents/heroSection";
 
-const Home = () => {
-  const navigate = useNavigate();
-  const { token, user } = useSelector(state => state.auth);
+const HomePage = () => {
+  const [counters, setCounters] = useState({
+    acres: 0,
+    savings: 0,
+    loans: 0,
+    solutions: 0,
+  });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const statsRef = useRef(null);
 
-  const handleGetStarted = () => {
-    navigate('/auth');
-  };
+  // Smooth scroll with Lenis
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
 
-  const handleGoToProfile = () => {
-    if (user?.role === 'farmer') {
-      navigate('/farmer/profile');
-    } else if (user?.role === 'dealer') {
-      navigate('/dealer/profile');
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
     }
+
+    requestAnimationFrame(raf);
+    return () => lenis.destroy();
+  }, []);
+
+  // Counter animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          animateCounters();
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated]);
+
+  const animateCounters = () => {
+    const duration = 2000;
+    const steps = 60;
+    const interval = duration / steps;
+
+    const targets = {
+      acres: 5000,
+      savings: 30,
+      loans: 1000,
+      solutions: 4,
+    };
+
+    let currentStep = 0;
+
+    const timer = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+
+      setCounters({
+        acres: Math.floor(targets.acres * progress),
+        savings: Math.floor(targets.savings * progress),
+        loans: Math.floor(targets.loans * progress),
+        solutions: Math.floor(targets.solutions * progress),
+      });
+
+      if (currentStep >= steps) {
+        clearInterval(timer);
+        setCounters(targets);
+      }
+    }, interval);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-200 to-green-400 flex flex-col items-center justify-center">
-      {/* Card Container */}
-      <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-10 text-center max-w-md w-[90%] transition-transform hover:scale-105">
-        {/* Title */}
-        <h1 className="text-4xl font-bold text-green-700 mb-4">
-          🌾 Kisan Mitra
-        </h1>
-
-        {/* Subtitle */}
-        <p className="text-gray-700 text-lg mb-6">
-          Empowering Farmers with Smart Solutions for a Sustainable Future.
-        </p>
-
-        {/* Conditional Buttons */}
-        <div className="space-y-3">
-          {!token ? (
-            <button 
-              onClick={handleGetStarted}
-              className="bg-green-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-green-700 transition-all w-full"
-            >
-              Get Started
-            </button>
-          ) : (
-            <div className="space-y-2">
-              <p className="text-sm text-gray-600">
-                Welcome back, {user?.firstName || user?.FullName || 'User'}!
-              </p>
-              <button 
-                onClick={handleGoToProfile}
-                className="bg-green-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-green-700 transition-all w-full"
-              >
-                Go to Profile
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="mt-10 text-sm text-green-900 opacity-80">
-        © {new Date().getFullYear()} Kisan Mitra. All rights reserved.
-      </footer>
+    <div className="bg-white overflow-hidden scroll-smooth">
+      <Navbar />
+      <HeroSection />
+      <Statistics ref={statsRef} />
+      <Features />
+      <Testimonials speed={0.4} direction="left" />
+      <Footer />
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
