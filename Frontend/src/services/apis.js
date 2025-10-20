@@ -18,6 +18,14 @@ export const DealerAuthAPI = {
     UPDATE_LANGUAGE_API: BASE_URL + "dealer/language",
 }
 
+export const DealerReviewAPI = {
+    ADD_UPDATE_REVIEW: BASE_URL + "dealer/", // + dealerId + "/review" (Main endpoint for add/update)
+    DELETE_REVIEW: BASE_URL + "dealer/", // + dealerId + "/review/delete"
+    GET_FARMER_REVIEW: BASE_URL + "dealer/", // + dealerId + "/review/farmer"
+    GET_DEALER_REVIEWS: BASE_URL + "dealer/", // + dealerId + "/reviews"
+    GET_OWN_REVIEWS: BASE_URL + "dealer/reviews/own",
+}
+
 export const CropAPI = {
     CREATE_CROP: BASE_URL + "crops",
     GET_DEALER_CROPS: BASE_URL + "crops",
