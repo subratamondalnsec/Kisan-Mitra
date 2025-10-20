@@ -354,7 +354,7 @@ exports.getAllCrops = async (req, res) => {
   try {
     // Get all crops with dealer information
     const crops = await Crop.find({})
-      .populate('dealerId', 'FullName lastName businessAddress averageRating isVerified contactNumber whatsappNumber image')
+      .populate('dealerId', 'FullName lastName businessAddress averageRating ratingCount isVerified contactNumber whatsappNumber image')
       .sort({ createdAt: -1 });
 
     // Group crops by dealer
@@ -374,6 +374,7 @@ exports.getAllCrops = async (req, res) => {
             contactNumber: crop.dealerId.contactNumber,
             whatsappNumber: crop.dealerId.whatsappNumber,
             averageRating: crop.dealerId.averageRating,
+            ratingCount: crop.dealerId.ratingCount,
             isVerified: crop.dealerId.isVerified,
             image: crop.dealerId.image
           },
@@ -403,6 +404,9 @@ exports.getAllCrops = async (req, res) => {
 
     // Convert object to array
     const dealersArray = Object.values(dealersWithCrops);
+    
+    // Debug: Log dealer info to check rating data
+    console.log("getAllCrops - Sample dealer info:", dealersArray[0]?.dealerInfo);
 
     res.status(200).json({
       success: true,
@@ -445,7 +449,7 @@ exports.getFilterCrops = async (req, res) => {
 
     // Get filtered crops with dealer information
     const crops = await Crop.find(query)
-      .populate('dealerId', 'FullName lastName businessAddress averageRating isVerified contactNumber whatsappNumber image')
+      .populate('dealerId', 'FullName lastName businessAddress averageRating ratingCount isVerified contactNumber whatsappNumber image')
       .sort({ createdAt: -1 });
 
     // Filter by location if provided (dealer's city/district/area/street/pincode)
@@ -478,6 +482,7 @@ exports.getFilterCrops = async (req, res) => {
             contactNumber: crop.dealerId.contactNumber,
             whatsappNumber: crop.dealerId.whatsappNumber,
             averageRating: crop.dealerId.averageRating,
+            ratingCount: crop.dealerId.ratingCount,
             isVerified: crop.dealerId.isVerified,
             image: crop.dealerId.image
           },

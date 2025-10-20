@@ -7,7 +7,7 @@ const Home = () => {
   const { token, user } = useSelector(state => state.auth);
 
   const handleGetStarted = () => {
-    navigate('/signup-login');
+    navigate('/auth');
   };
 
   const handleGoToProfile = () => {

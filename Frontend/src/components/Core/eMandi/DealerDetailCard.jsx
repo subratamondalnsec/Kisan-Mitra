@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const DealerDetailCard = ({ dealerInfo }) => {
   const [showFullAddress, setShowFullAddress] = useState(false);
+  const navigate = useNavigate();
+
+  // // Debug: Log dealerInfo structure
+  // console.log("DealerDetailCard - dealerInfo:", dealerInfo);
 
   // Add error checking
   if (!dealerInfo) {
@@ -79,9 +84,39 @@ const DealerDetailCard = ({ dealerInfo }) => {
           <p style={{ margin: '0 0 5px 0', color: '#666', fontSize: '16px', fontWeight: 'bold' }}>
             🏪 {dealerInfo.businessAddress.businessName}
           </p>
-          <p style={{ margin: '0', color: '#888', fontSize: '14px' }}>
-            ⭐ {dealerInfo.averageRating}/5 Rating
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <p style={{ margin: '0', color: '#888', fontSize: '14px' }}>
+              ⭐ {dealerInfo.averageRating?.toFixed(1) || '0.0'}/5
+            </p>
+            <span style={{ color: '#666', fontSize: '12px' }}>
+              ({dealerInfo.ratingCount || 0} {dealerInfo.ratingCount === 1 ? 'review' : 'reviews'})
+            </span>
+            {dealerInfo.ratingCount > 0 && (
+              <button
+                onClick={() => navigate(`/farmer/${dealerInfo._id}/reviews`)}
+                style={{
+                  background: 'none',
+                  border: '1px solid #4CAF50',
+                  color: '#4CAF50',
+                  padding: '2px 8px',
+                  borderRadius: '12px',
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = '#4CAF50';
+                  e.target.style.color = 'white';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                  e.target.style.color = '#4CAF50';
+                }}
+              >
+                View Reviews
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -212,6 +247,36 @@ const DealerDetailCard = ({ dealerInfo }) => {
           }}
         >
           📍 {showFullAddress ? 'Hide' : 'Show'} Address
+        </button>
+
+        <button
+          onClick={() => navigate(`/farmer/${dealerInfo._id}/reviews`)}
+          style={{ 
+            backgroundColor: '#9C27B0',
+            color: 'white',
+            border: 'none',
+            padding: '8px 15px',
+            borderRadius: '20px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+            transition: 'all 0.2s ease',
+            boxShadow: '0 2px 4px rgba(156, 39, 176, 0.2)'
+          }}
+          onMouseOver={(e) => {
+            e.target.style.backgroundColor = '#7B1FA2';
+            e.target.style.transform = 'translateY(-1px)';
+            e.target.style.boxShadow = '0 4px 8px rgba(156, 39, 176, 0.3)';
+          }}
+          onMouseOut={(e) => {
+            e.target.style.backgroundColor = '#9C27B0';
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 2px 4px rgba(156, 39, 176, 0.2)';
+          }}
+        >
+          ⭐ View All Reviews ({dealerInfo.ratingCount || 0})
         </button>
       </div>
 

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { 
   getAllCrops, 
   getFilteredCrops 
 } from '../services/operations/cropApi';
 import { CROP_CATEGORIES } from '../constants/cropCategories';
 import FarmerNavbar from '../components/Common/FarmerNavbar';
+import DealerDetailCard from '../components/Core/eMandi/DealerDetailCard';
 
 const FarmerEmandi = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { allCrops, filteredCrops, loading } = useSelector(state => state.crop);
   
   const [searchTerm, setSearchTerm] = useState('');
@@ -238,88 +241,10 @@ const FarmerEmandi = () => {
               padding: '20px',
               backgroundColor: 'white'
             }}>
-          {/* Dealer Information */}
-          <div style={{ 
-            backgroundColor: '#f8f9fa', 
-            padding: '20px', 
-            borderRadius: '12px',
-            marginBottom: '20px',
-            border: '1px solid #e0e0e0'
-          }}>
-            {/* Dealer Header with Image */}
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-              <div style={{ 
-                width: '60px', 
-                height: '60px', 
-                borderRadius: '50%', 
-                overflow: 'hidden',
-                marginRight: '15px',
-                border: '2px solid #4CAF50'
-              }}>
-                <img 
-                  src={dealerData.dealerInfo.image || `https://api.dicebear.com/5.x/initials/svg?seed=${dealerData.dealerInfo.FullName}%20${dealerData.dealerInfo.lastName}`}
-                  alt="Dealer"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              </div>
-              <div>
-                <h3 style={{ margin: '0 0 5px 0', color: '#2c3e50', fontSize: '20px' }}>
-                  {dealerData.dealerInfo.FullName} {dealerData.dealerInfo.lastName}
-                  {dealerData.dealerInfo.isVerified && <span style={{ color: 'green', marginLeft: '10px', fontSize: '16px' }}>✓ Verified</span>}
-                </h3>
-                <p style={{ margin: '0', color: '#666', fontSize: '16px', fontWeight: 'bold' }}>
-                  {dealerData.dealerInfo.businessAddress.businessName}
-                </p>
-              </div>
-            </div>
+              {/* Dealer Information - Using DealerDetailCard component */}
+              <DealerDetailCard dealerInfo={dealerData.dealerInfo} />
 
-            {/* Contact Information */}
-            <div style={{ 
-              backgroundColor: 'white', 
-              padding: '15px', 
-              borderRadius: '8px',
-              marginBottom: '15px',
-              border: '1px solid #e9ecef'
-            }}>
-              <h4 style={{ margin: '0 0 10px 0', color: '#495057' }}>📞 Contact Information</h4>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px' }}>
-                <p style={{ margin: '0' }}><strong>Phone:</strong> {dealerData.dealerInfo.contactNumber}</p>
-                {dealerData.dealerInfo.whatsappNumber && (
-                  <p style={{ margin: '0' }}><strong>WhatsApp:</strong> {dealerData.dealerInfo.whatsappNumber}</p>
-                )}
-                <p style={{ margin: '0' }}><strong>Rating:</strong> ⭐ {dealerData.dealerInfo.averageRating}/5</p>
-              </div>
-            </div>
-
-            {/* Full Address */}
-            <div style={{ 
-              backgroundColor: 'white', 
-              padding: '15px', 
-              borderRadius: '8px',
-              border: '1px solid #e9ecef'
-            }}>
-              <h4 style={{ margin: '0 0 10px 0', color: '#495057' }}>📍 Business Address</h4>
-              <div style={{ lineHeight: '1.6' }}>
-                <p style={{ margin: '0 0 5px 0' }}>
-                  <strong>Street:</strong> {dealerData.dealerInfo.businessAddress.street}
-                </p>
-                <p style={{ margin: '0 0 5px 0' }}>
-                  <strong>Area:</strong> {dealerData.dealerInfo.businessAddress.area}
-                </p>
-                <p style={{ margin: '0 0 5px 0' }}>
-                  <strong>City:</strong> {dealerData.dealerInfo.businessAddress.city}, {dealerData.dealerInfo.businessAddress.district}
-                </p>
-                <p style={{ margin: '0 0 5px 0' }}>
-                  <strong>State:</strong> {dealerData.dealerInfo.businessAddress.state} - <strong>PIN:</strong> {dealerData.dealerInfo.businessAddress.pincode}
-                </p>
-                {dealerData.dealerInfo.businessAddress.landmark && (
-                  <p style={{ margin: '0', color: '#666' }}>
-                    <strong>Landmark:</strong> {dealerData.dealerInfo.businessAddress.landmark}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>              {/* Dealer's Crops */}
+              {/* Dealer's Crops */}
               <div>
                 <h4 style={{ marginBottom: '15px' }}>Available Crops ({dealerData.totalCrops})</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '15px' }}>

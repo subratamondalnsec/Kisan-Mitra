@@ -5,16 +5,16 @@ const dealerSchema = new mongoose.Schema({
   FullName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   lastName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   role: {
     type: String,
-    default: 'dealer'
+    default: "dealer",
   },
   email: {
     type: String,
@@ -23,84 +23,86 @@ const dealerSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
     validate: {
-      validator: function(email) {
+      validator: function (email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       },
-      message: 'Please provide a valid email address'
-    }
+      message: "Please provide a valid email address",
+    },
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   contactNumber: {
     type: String,
     required: true,
     unique: true,
     validate: {
-      validator: function(phone) {
+      validator: function (phone) {
         return /^[6-9]\d{9}$/.test(phone);
       },
-      message: 'Please provide a valid 10-digit contact number'
-    }
+      message: "Please provide a valid 10-digit contact number",
+    },
   },
-  whatsappNumber:{
+  whatsappNumber: {
     type: String,
     required: true,
     validate: {
-      validator: function(phone) {
+      validator: function (phone) {
         return /^[6-9]\d{9}$/.test(phone);
       },
-      message: 'Please provide a valid 10-digit WhatsApp number'
-    }
+      message: "Please provide a valid 10-digit WhatsApp number",
+    },
   },
-  
+
   // Profile Image
   image: {
     type: String,
-    default: `https://api.dicebear.com/5.x/initials/svg?seed=${this.FullName}%20${this.lastName}`
+    default: function () {
+      return `https://api.dicebear.com/5.x/initials/svg?seed=${this.FullName}%20${this.lastName}`;
+    },
   },
-  
+
   // Business Address
   businessAddress: {
     businessName: {
       type: String,
-      required: true
+      required: true,
     },
     street: {
       type: String,
-      required: true
+      required: true,
     },
     area: {
       type: String,
-      required: true
+      required: true,
     },
     city: {
       type: String,
-      required: true
+      required: true,
     },
     district: {
       type: String,
-      required: true
+      required: true,
     },
     state: {
       type: String,
-      required: true
+      required: true,
     },
     pincode: {
       type: String,
-      required: true
+      required: true,
     },
     landmark: {
       type: String,
-      required: true
+      required: true,
     },
     coordinates: {
       longitude: Number,
-      latitude: Number
-    }
+      latitude: Number,
+    },
   },
-  
+
   // Identity Documents
   documents: {
     aadhaarNumber: String,
@@ -108,57 +110,74 @@ const dealerSchema = new mongoose.Schema({
     voterIdNumber: String,
     drivingLicense: String,
     businessDocuments: [String], // Document URLs
-    profilePhoto: String // Photo URL
+    profilePhoto: String, // Photo URL
   },
-  
+
   // Language Preferences
   preferredLanguage: {
     type: String,
-    enum: ['Hindi', 'English', 'Bengali'],
-    default: 'English'
+    enum: ["Hindi", "English", "Bengali"],
+    default: "English",
   },
-  
-  // Average Rating
+
+  // Ratings & Reviews Section
+  ratings: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Farmer",
+        required: true,
+      },
+      rating: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5,
+      },
+      review: {
+        type: String,
+        trim: true,
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+      updatedAt: {
+        type: Date,
+        default: Date.now,
+      }
+    },
+  ],
+
   averageRating: {
     type: Number,
     default: 0,
     min: 0,
-    max: 5
+    max: 5,
   },
-  
-  // Ratings and Reviews (Array to store multiple reviews)
-  ratings: [{
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Farmer'
-    },
-    rating: {
-      type: Number,
-      required: true,
-      min: 1,
-      max: 5
-    },
-    review: String,
-    createdAt: {
-      type: Date,
-      default: Date.now
-    }
-  }],
+
+  ratingCount: {
+    type: Number,
+    default: 0,
+  },
 
   // Crops/Products References (ObjectIDs to separate Crop collection)
-  crops: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Crop'
-  }],
-  
+  crops: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Crop",
+    },
+  ],
 
   // Verification Status
   isVerified: {
     type: Boolean,
-    default: false
+    default: false,
   },
+}, { timestamps: true });
 
-
-},{timestamps: true});
+// Note: No unique index on ratings.user - farmers should be able to review multiple dealers
+// Each dealer can have multiple reviews, and each farmer can review multiple dealers
+// The uniqueness is enforced per dealer (one review per farmer per dealer) in the controller logic
 
 module.exports = mongoose.model("Dealer", dealerSchema);
