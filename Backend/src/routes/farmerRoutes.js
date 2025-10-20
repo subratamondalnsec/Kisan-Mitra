@@ -6,7 +6,9 @@ const {
   signup,
   login,
   getProfile,
-  updateProfile
+  updateProfile,
+  updatePreferredLanguage,
+  getPreferredLanguage
 } = require('../controllers/FarmerAuth');
 
 // Import auth middleware
@@ -19,5 +21,7 @@ router.post('/login', login);
 // Protected routes (authentication required)
 router.get('/profile', auth, getProfile);
 router.put('/profile', auth, updateProfile);
+router.get('/language', auth, getPreferredLanguage);
+router.put('/language', auth, updatePreferredLanguage);
 
 module.exports = router;

@@ -247,3 +247,92 @@ exports.updateProfile = async (req, res) => {
     });
   }
 };
+
+// Update dealer preferred language
+exports.updatePreferredLanguage = async (req, res) => {
+  try {
+    const { preferredLanguage } = req.body;
+
+    // Validate language input
+    const allowedLanguages = ['Hindi', 'English', 'Bengali'];
+    if (!preferredLanguage || !allowedLanguages.includes(preferredLanguage)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid language. Allowed languages: Hindi, English, Bengali'
+      });
+    }
+
+    const dealer = await Dealer.findById(req.dealer.id);
+
+    if (!dealer) {
+      return res.status(404).json({
+        success: false,
+        message: 'Dealer not found'
+      });
+    }
+
+    // Update preferred language
+    dealer.preferredLanguage = preferredLanguage;
+    await dealer.save();
+
+    res.status(200).json({
+      success: true,
+      message: `Language updated to ${preferredLanguage} successfully`,
+      data: {
+        dealer: {
+          id: dealer._id,
+          FullName: dealer.FullName,
+          lastName: dealer.lastName,
+          email: dealer.email,
+          preferredLanguage: dealer.preferredLanguage,
+          image: dealer.image
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Update dealer language error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error. Please try again later.',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+// Get dealer preferred language
+exports.getPreferredLanguage = async (req, res) => {
+  try {
+    const dealer = await Dealer.findById(req.dealer.id).select('preferredLanguage FullName lastName email');
+
+    if (!dealer) {
+      return res.status(404).json({
+        success: false,
+        message: 'Dealer not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Preferred language retrieved successfully',
+      data: {
+        preferredLanguage: dealer.preferredLanguage || 'English',
+        dealer: {
+          id: dealer._id,
+          FullName: dealer.FullName,
+          lastName: dealer.lastName,
+          email: dealer.email,
+          preferredLanguage: dealer.preferredLanguage || 'English'
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Get dealer language error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error. Please try again later.',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
