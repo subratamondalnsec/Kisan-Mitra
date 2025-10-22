@@ -10,10 +10,13 @@
 
 ```
 Kisan-Mitra/
+├── .git/                             # Git repository
 ├── Backend/                          # Node.js Express Backend
 │   ├── .env                          # Environment variables
 │   ├── .gitignore                    # Git ignore rules
 │   ├── package.json                  # Backend dependencies
+│   ├── package-lock.json             # NPM lock file
+│   ├── node_modules/                 # Backend dependencies
 │   └── src/
 │       ├── index.js                  # Application entry point
 │       ├── config/
@@ -21,7 +24,8 @@ Kisan-Mitra/
 │       ├── controllers/
 │       │   ├── CropController.js     # Crop CRUD operations
 │       │   ├── DellerAuth.js         # Dealer authentication logic
-│       │   └── FarmerAuth.js         # Farmer authentication logic
+│       │   ├── FarmerAuth.js         # Farmer authentication logic
+│       │   └── dealerReviewController.js # Dealer review management
 │       ├── middlewares/
 │       │   └── auth.js               # JWT authentication middleware
 │       ├── models/
@@ -37,39 +41,64 @@ Kisan-Mitra/
 │           └── tokenGenerator.js     # JWT token utilities
 │
 ├── Frontend/                         # React Vite Frontend
-│   ├── .env                          # Frontend environment variables
+│   ├── .env                          # Frontend environment variables (if exists)
 │   ├── .gitignore                    # Git ignore rules
 │   ├── eslint.config.js              # ESLint configuration
 │   ├── index.html                    # HTML template
 │   ├── package.json                  # Frontend dependencies
+│   ├── package-lock.json             # NPM lock file
 │   ├── README.md                     # Frontend documentation
 │   ├── vite.config.js                # Vite build configuration
 │   ├── public/                       # Static assets
+│   │   ├── bg-image.jpg              # Background image
+│   │   ├── farmer.jpg                # Farmer image asset
+│   │   └── logo.png                  # Application logo
 │   └── src/
 │       ├── App.css                   # Global application styles
 │       ├── App.jsx                   # Main application component
 │       ├── index.css                 # Base CSS with Tailwind
 │       ├── main.jsx                  # Application entry point
-│       ├── assets/                   # Static assets (images, icons)
+│       ├── assets/                   # Static assets (images, icons) - empty
 │       ├── components/
 │       │   ├── Common/
-│       │   │   └── LoadingSpinner.jsx    # Reusable loading component
+│       │   │   ├── DealerNavbar.jsx      # Dealer navigation component
+│       │   │   ├── FarmerNavbar.jsx      # Farmer navigation component
+│       │   │   ├── LoadingSpinner.jsx    # Reusable loading component
+│       │   │   └── NavbarComponents/
+│       │   │       ├── DealerProfileDropdown.jsx # Dealer profile dropdown
+│       │   │       ├── LanguageSelector.jsx      # Language selection component
+│       │   │       ├── NavLinks.jsx              # Navigation links component
+│       │   │       └── ProfileDropdown.jsx       # General profile dropdown
 │       │   └── Core/
 │       │       ├── Home.jsx              # Landing page component
 │       │       ├── dealerDashboard/
 │       │       │   ├── CropForm.jsx      # Add/Edit crop form
-│       │       │   └── DealerCropList.jsx # Dealer's crop management
-│       │       └── eMandi/
-│       │           ├── CropList.jsx      # Display available crops
-│       │           ├── DealerDetailCard.jsx # Dealer information card
-│       │           └── SearchFilter.jsx  # Crop search & filter
+│       │       │   ├── DealerCropList.jsx # Dealer's crop management
+│       │       │   └── DealerOwnReviews.jsx # Dealer's own reviews
+│       │       ├── eMandi/
+│       │       │   ├── CropList.jsx      # Display available crops
+│       │       │   ├── DealerDetailCard.jsx # Dealer information card
+│       │       │   ├── DealerReviews.jsx # Dealer reviews display
+│       │       │   └── SearchFilter.jsx  # Crop search & filter
+│       │       └── homeComponents/
+│       │           ├── featureSection.jsx    # Features section
+│       │           ├── footer.jsx           # Footer component
+│       │           ├── heroSection.jsx      # Hero section
+│       │           ├── navbar.jsx           # Home navbar
+│       │           ├── statisticsSection.jsx # Statistics section
+│       │           └── testimonialSection.jsx # Testimonials section
 │       ├── constants/
-│       │   └── cropCategories.js     # Predefined crop categories
+│       │   ├── cropCategories.js     # Predefined crop categories
+│       │   └── languageOptions.js    # Language options configuration
 │       ├── pages/
 │       │   ├── AuthPage.jsx          # Login/Register page
 │       │   ├── DealerDashboard.jsx   # Dealer main dashboard
+│       │   ├── DealerLanguage.jsx    # Dealer language settings
+│       │   ├── DealerMyReviewsPage.jsx # Dealer's reviews page
 │       │   ├── DealerProfile.jsx     # Dealer profile management
+│       │   ├── DealerReviewsPage.jsx # Dealer reviews display page
 │       │   ├── FarmerEmandi.jsx      # Farmer marketplace view
+│       │   ├── FarmerLanguage.jsx    # Farmer language settings
 │       │   └── FarmerProfile.jsx     # Farmer profile management
 │       ├── reducer/
 │       │   └── index.js              # Redux store configuration
@@ -79,12 +108,17 @@ Kisan-Mitra/
 │       │   └── operations/
 │       │       ├── cropApi.js        # Crop-related API calls
 │       │       ├── DealerAuthApI.js  # Dealer authentication APIs
-│       │       └── FarmerAuthApi.js  # Farmer authentication APIs
+│       │       ├── DealerReviewOperations.js # Dealer review operations
+│       │       ├── FarmerAuthApi.js  # Farmer authentication APIs
+│       │       └── languageApi.js    # Language-related API calls
 │       └── slices/
 │           ├── authSlice.js          # Authentication state management
-│           └── cropSlice.js          # Crop data state management
+│           ├── cropSlice.js          # Crop data state management
+│           ├── dealerSlice.js        # Dealer-specific state management
+│           └── languageSlice.js      # Language state management
 │
-└── PROJECT_STRUCTURE.md             # This documentation file
+├── PROJECT_STRUCTURE.md             # This documentation file
+└── README.md                        # Main project documentation
 ```
 
 ---
@@ -118,6 +152,7 @@ Kisan-Mitra/
 - `CropController.js`: Handles CRUD operations for crops, advanced filtering, and dealer-specific crop management
 - `DellerAuth.js`: Manages dealer registration, login, profile updates, and authentication
 - `FarmerAuth.js`: Handles farmer authentication, registration, and profile management
+- `dealerReviewController.js`: Manages dealer review system, ratings, and feedback operations
 
 #### **Models**
 - `Crop.js`: Defines crop schema with categories, pricing, quantities, harvest dates, and dealer references
@@ -136,29 +171,63 @@ Kisan-Mitra/
 - `Home.jsx`: Landing page with navigation and feature highlights
 - `LoadingSpinner.jsx`: Reusable loading indicator component
 
+#### **Navigation Components**
+- `DealerNavbar.jsx`: Dealer-specific navigation with dashboard links
+- `FarmerNavbar.jsx`: Farmer-specific navigation with marketplace access
+- `NavbarComponents/`: Modular navigation components
+  - `DealerProfileDropdown.jsx`: Dealer profile dropdown menu
+  - `LanguageSelector.jsx`: Multi-language selection component
+  - `NavLinks.jsx`: Reusable navigation links
+  - `ProfileDropdown.jsx`: General user profile dropdown
+
+#### **Home Page Components**
+- `homeComponents/`: Landing page sections
+  - `featureSection.jsx`: Feature highlights and benefits
+  - `footer.jsx`: Website footer with links and information
+  - `heroSection.jsx`: Main hero section with call-to-action
+  - `navbar.jsx`: Home page navigation
+  - `statisticsSection.jsx`: Platform statistics display
+  - `testimonialSection.jsx`: User testimonials and reviews
+
 #### **Dealer Dashboard**
 - `CropForm.jsx`: Modal form for adding/editing crops with validation
 - `DealerCropList.jsx`: Grid view of dealer's crops with edit/delete actions
+- `DealerOwnReviews.jsx`: Display and management of dealer's own reviews
 
 #### **eMandi (Marketplace)**
 - `CropList.jsx`: Displays available crops from all dealers
 - `DealerDetailCard.jsx`: Interactive dealer information display
+- `DealerReviews.jsx`: Dealer reviews and ratings display
 - `SearchFilter.jsx`: Advanced filtering system for crops
 
 #### **Pages**
 - `AuthPage.jsx`: Unified login/register interface
 - `DealerDashboard.jsx`: Main dealer control panel
+- `DealerLanguage.jsx`: Dealer language preferences management
+- `DealerMyReviewsPage.jsx`: Dealer's own reviews management page
+- `DealerProfile.jsx`: Dealer profile management
+- `DealerReviewsPage.jsx`: Dealer reviews display and interaction page
 - `FarmerEmandi.jsx`: Farmer marketplace browsing interface
-- `DealerProfile.jsx` & `FarmerProfile.jsx`: Profile management pages
+- `FarmerLanguage.jsx`: Farmer language preferences management
+- `FarmerProfile.jsx`: Farmer profile management
 
 #### **State Management**
 - `authSlice.js`: User authentication state, login status, user data
 - `cropSlice.js`: Crop data management, filtering, and CRUD operations
+- `dealerSlice.js`: Dealer-specific state management and operations
+- `languageSlice.js`: Multi-language support and locale management
 
 #### **Services**
 - `apiconnector.jsx`: Centralized Axios configuration
 - `cropApi.js`: Crop-related API operations with Redux integration
-- Authentication APIs for both user types
+- `DealerAuthApI.js`: Dealer authentication API operations
+- `DealerReviewOperations.js`: Dealer review system API operations
+- `FarmerAuthApi.js`: Farmer authentication API operations
+- `languageApi.js`: Language and localization API operations
+
+#### **Constants**
+- `cropCategories.js`: Predefined crop categories and types
+- `languageOptions.js`: Available language options and configurations
 
 ---
 
@@ -170,6 +239,9 @@ Kisan-Mitra/
 - ✅ Business profile management
 - ✅ Location-based visibility
 - ✅ WhatsApp integration for communication
+- ✅ Review system management
+- ✅ Multi-language support
+- ✅ Dashboard analytics
 
 ### **Farmer Features**
 - ✅ Browse available crops by location
@@ -177,6 +249,9 @@ Kisan-Mitra/
 - ✅ Dealer contact information access
 - ✅ Price comparison across dealers
 - ✅ Profile management
+- ✅ Dealer reviews and ratings
+- ✅ Multi-language support
+- ✅ Personalized marketplace experience
 
 ### **System Features**
 - ✅ JWT-based secure authentication
@@ -185,6 +260,9 @@ Kisan-Mitra/
 - ✅ Location-based services
 - ✅ Modern UI with smooth animations
 - ✅ Error handling and validation
+- ✅ Multi-language support system
+- ✅ Review and rating system
+- ✅ Modular component architecture
 
 ---
 
@@ -277,6 +355,17 @@ Kisan-Mitra/
 - `PUT /api/dealer/profile` - Update dealer profile
 - `GET /api/farmer/profile` - Get farmer profile
 - `PUT /api/farmer/profile` - Update farmer profile
+
+### **Review System**
+- `GET /api/dealer/reviews` - Get dealer reviews
+- `POST /api/dealer/reviews` - Create dealer review
+- `PUT /api/dealer/reviews/:id` - Update dealer review
+- `DELETE /api/dealer/reviews/:id` - Delete dealer review
+- `GET /api/dealer/:id/reviews` - Get reviews for specific dealer
+
+### **Language & Localization**
+- `GET /api/languages` - Get available languages
+- `PUT /api/user/language` - Update user language preference
 
 ---
 
