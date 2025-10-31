@@ -2,6 +2,7 @@ const CropDiseasePrediction = require("../models/CropDiseaseModel");
 const Farmer = require("../models/Farmer");
 const axios = require("axios");
 const mongoose = require("mongoose");
+const {uploadFiles} = require("../utils/FileUploader");
 // ML Model API Configuration
 const ML_API_URL = "https://crop-disease-detection-rice-wheat-tomato.onrender.com/predict";
 
@@ -138,11 +139,38 @@ exports.addAndCallMLModelCropDiseasePrediction = async (req, res) => {
       });
     }
 
+    // Build a proper data URI for base64 image. Accept either full data URI
+    // (e.g. "data:image/png;base64,...") or a raw base64 string.
+    let uploadCloudBase64;
+    if (typeof image === 'string' && image.startsWith('data:')) {
+      uploadCloudBase64 = image;
+    } else if (typeof image === 'string') {
+      // If caller sent raw base64 without a MIME prefix, assume jpeg.
+      // You can adjust default mime-type if you know your input (png/webp etc.).
+      uploadCloudBase64 = `data:${image}`;
+    } else {
+      return res.status(400).json({ success: false, message: 'Invalid image format' });
+    }
+
+    // Upload image to Cloudinary. The uploadFiles util accepts an object
+    // with a `tempFilePath` property; passing a data URI string works with
+    // cloudinary.uploader.upload() directly.
+    const uploadResult = await uploadFiles({ tempFilePath: uploadCloudBase64 }, `KisanMitra`);
+    if (!uploadResult || !uploadResult.secure_url) {
+      // If the util returned an error object, include that in response for debug.
+      return res.status(500).json({ 
+        success: false,
+        message: "Image upload failed",
+        error: uploadResult?.error || uploadResult?.message || "Unknown error"
+      });
+    }
+    const imageUrl = uploadResult.secure_url;
     // Save the prediction result to the database
     const newPrediction = new CropDiseasePrediction({
       farmerId,
       cropType: normalizedCropType,
-      predictedDiseases: mlModelResponse.predictions
+      predictedDiseases: mlModelResponse.predictions,
+      imageUrl:imageUrl
     });
 
     await newPrediction.save();
@@ -154,6 +182,7 @@ exports.addAndCallMLModelCropDiseasePrediction = async (req, res) => {
     farmer.CropDiseaseHistory.push(newPrediction._id);
     await farmer.save();
 
+    // Return the saved prediction including the Cloudinary secure URL
     res.status(201).json({
       success: true,
       message: "Crop disease prediction completed successfully",
@@ -162,6 +191,7 @@ exports.addAndCallMLModelCropDiseasePrediction = async (req, res) => {
         farmerId: newPrediction.farmerId,
         cropType: newPrediction.cropType,
         predictedDiseases: newPrediction.predictedDiseases,
+        imageUrl: newPrediction.imageUrl,
         predictionDate: newPrediction.predictionDate,
         createdAt: newPrediction.createdAt,
         updatedAt: newPrediction.updatedAt
