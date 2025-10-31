@@ -3,11 +3,9 @@ const dbconnect = require('./config/database');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
-
+const cloudinary = require("./config/cloudinary");
+const fileUpload = require("express-fileupload");
 const app = express();
-
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // Import routes
 const dealerRoutes = require('./routes/dealerRoutes');
@@ -35,8 +33,15 @@ app.use(
     credentials: true,
   })
 )
-
+app.use(
+	fileUpload({
+		useTempFiles: true,
+		tempFileDir: "/tmp/",
+	})
+);
 // Middleware
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -58,7 +63,9 @@ const initializeConnection = async () => {
   try {
     await dbconnect();
     console.log('✅ Connected to MongoDB');
-  app.listen(PORT, () => {
+    cloudinary.cloudinaryConnect();
+    console.log("connected to Cloudinary");
+    app.listen(PORT, () => {
     console.log(`🚀 Server listening at port ${PORT}`);
     console.log(`📡 API endpoint: http://localhost:${PORT}`);
   });
