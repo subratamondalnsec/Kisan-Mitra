@@ -9,10 +9,24 @@ import rootReducer from "./reducer/index.js";
 import { configureStore } from '@reduxjs/toolkit';
 import { Toaster } from "react-hot-toast";
 import { DarkModeProvider } from './contexts/DarkModeContext.jsx';
+import { 
+  registerServiceWorker, 
+  setupInstallPrompt, 
+  setupOnlineOfflineHandlers 
+} from './registerSW.js';
 
 const store=configureStore({
   reducer: rootReducer,
 });
+
+// Register Service Worker for PWA functionality
+registerServiceWorker();
+
+// Setup PWA install prompt
+setupInstallPrompt();
+
+// Setup online/offline handlers
+setupOnlineOfflineHandlers();
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
