@@ -1,0 +1,209 @@
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const Statistics = () => {
+  const [counters, setCounters] = useState({
+    acres: 0,
+    crops: 0,
+    units: 0,
+    patents: 0,
+  });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const statsRef = useRef(null);
+  const cardsRef = useRef([]);
+
+  // Animate counters when in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          animateCounters();
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (statsRef.current) observer.observe(statsRef.current);
+    return () => observer.disconnect();
+  }, [hasAnimated]);
+
+  const animateCounters = () => {
+    const duration = 2000;
+    const steps = 60;
+    const interval = duration / steps;
+
+    const targets = {
+      acres: 5000,
+      crops: 9,
+      units: 50,
+      patents: 6,
+    };
+
+    let currentStep = 0;
+    const timer = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+      setCounters({
+        acres: Math.floor(targets.acres * progress),
+        crops: Math.floor(targets.crops * progress),
+        units: Math.floor(targets.units * progress),
+        patents: Math.floor(targets.patents * progress),
+      });
+      if (currentStep >= steps) {
+        clearInterval(timer);
+        setCounters(targets);
+      }
+    }, interval);
+  };
+
+  // GSAP scroll reveal animation
+  useEffect(() => {
+    gsap.fromTo(
+      cardsRef.current,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.2,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: statsRef.current,
+          start: "top 80%",
+        },
+      }
+    );
+  }, []);
+
+  return (
+    <section
+      id="statistics"
+      ref={statsRef}
+      className="py-32 bg-primary z-10 relative overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header Section */}
+        <div className="mb-20">
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="text-5xl md:text-6xl font-bold text-gray-400 leading-tight"
+          >
+            Delivering <span className="stroke-text1">ROI</span>
+            <br />
+            to <span className="stroke-text2">3000+</span> farmers
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="text-lg md:text-xl text-gray-500 max-w-3xl"
+          >
+            Kisan Mitra's AI-powered precision farming technology is tested and
+            proven on real farms across India.
+          </motion.p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-24 w-full">
+          {[
+            { label: "ACRES MONITORED", value: counters.acres, icon: "grid" },
+            { label: "CROP TYPES SUPPORTED", value: counters.crops, icon: "star" },
+            { label: "UNITS DEPLOYED", value: counters.units, icon: "truck" },
+            { label: "TECHNOLOGY PATENTS", value: counters.patents, icon: "clock" },
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              ref={(el) => (cardsRef.current[index] = el)}
+              // whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="relative border-l-[0.5px] border-white/30 pl-8 h-[300px] transition-all duration-300 group"
+            >
+              {/* Icon Circle */}
+              <div className="mb-8">
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 * index }}
+                  viewport={{ once: true }}
+                  className="w-32 h-32 rounded-full border-2 border-gray-400 flex items-center justify-center bg-[#010101] transition-all duration-300"
+                >
+                  {item.icon === "grid" && (
+                    <svg
+                      className="w-16 h-16 text-gray-400 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth="1.5" />
+                      <path d="M9 3v18M15 3v18M3 9h18M3 15h18" strokeWidth="1.5" />
+                    </svg>
+                  )}
+                  {item.icon === "star" && (
+                    <svg
+                      className="w-16 h-16 text-gray-400 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 2L14 8L20 9L15 14L17 20L12 17L7 20L9 14L4 9L10 8L12 2Z"
+                        strokeWidth="1.5"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                  {item.icon === "truck" && (
+                    <svg
+                      className="w-16 h-16 text-gray-400 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <rect x="3" y="8" width="18" height="12" rx="2" strokeWidth="1.5" />
+                      <rect x="7" y="4" width="10" height="4" strokeWidth="1.5" />
+                      <circle cx="8" cy="18" r="1.5" fill="currentColor" />
+                      <circle cx="16" cy="18" r="1.5" fill="currentColor" />
+                    </svg>
+                  )}
+                  {item.icon === "clock" && (
+                    <svg
+                      className="w-16 h-16 text-gray-400 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle cx="12" cy="12" r="9" strokeWidth="1.5" />
+                      <path d="M12 6v6l4 2" strokeWidth="1.5" strokeLinecap="round" />
+                      <circle cx="12" cy="12" r="2" fill="currentColor" />
+                    </svg>
+                  )}
+                </motion.div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-6xl md:text-7xl font-bold text-gray-400">
+                  {item.value}+
+                </div>
+                <p className="text-gray-400 text-sm uppercase tracking-wider font-medium">
+                  {item.label}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Statistics;
