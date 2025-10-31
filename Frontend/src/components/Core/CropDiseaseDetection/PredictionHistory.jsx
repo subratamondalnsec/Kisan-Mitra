@@ -208,7 +208,22 @@ const PredictionHistory = ({ history, loading, onDelete }) => {
                     </div>
                   ))}
                 </div>
-
+                  <div className="mt-3">
+                    {prediction?.imageUrl ? (
+                      <img
+                        src={prediction.imageUrl}
+                        alt={`prediction-${prediction._id}`}
+                        className="w-full h-auto object-cover rounded-md"
+                        loading="lazy"
+                        onError={(e) => {
+                          // If image fails to load, hide it and show fallback text
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="text-sm text-gray-500">No image available</div>
+                    )}
+                  </div>
                 {/* Additional Info */}
                 <div className="mt-4 pt-4 border-t border-gray-200 grid grid-cols-2 gap-4 text-sm">
                   <div>
