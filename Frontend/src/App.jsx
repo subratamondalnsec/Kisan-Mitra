@@ -14,6 +14,8 @@ import CropDiseaseDetection from './pages/CropDiseaseDetection';
 import SoilHealthTest from './pages/SoilHealthTest';
 import "./App.css";
 import AgentDashboard from './pages/AgentDashboard';
+import FarmerDashboard from './pages/FarmerDashboard';
+import InstantLoan from './pages/InstantLoan';
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
         <Route path="/farmer/crop-analysis" element={<CropDiseaseDetection />} />
         <Route path="/farmer/soil-health" element={<SoilHealthTest />} />
         <Route path="/agent/dashboard" element={<AgentDashboard/>} />
+        <Route path="/farmer/dashboard" element={<FarmerDashboard/>} />
+        <Route path="/farmer/loan" element={<InstantLoan/>} />
       </Routes>
     </div>
   );
