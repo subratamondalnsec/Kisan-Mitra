@@ -6,6 +6,10 @@ const cropPredictionSchema = new mongoose.Schema({
         ref: 'Farmer',
         required: true
     },
+    imageUrl:{
+        type: String,
+        required: true
+    },
     cropType: {
         type: String,
         required: true,
