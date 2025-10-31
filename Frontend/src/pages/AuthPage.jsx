@@ -14,7 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState("farmer");
-  const [authMode, setAuthMode] = useState("login"); // 'login' or 'signup'
+  const [authMode, setAuthMode] = useState("login");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
