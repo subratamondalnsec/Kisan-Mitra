@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
+
+@import "tailwindcss";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  /* background-color: #0B1319; */
+  /* color: #FFFFFF; */
+  scroll-behavior: smooth;
+}
+
+@theme {
+  /* Custom Colors */
+  --color-primary: #010101;
+  
+  /* Custom Animations */
+  --animate-fade-in: fade-in 1s ease-out forwards;
+  --animate-slide-up: slide-up 1.2s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #010101;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a2a;
+}
+
+.stroke-text1 {
+  -webkit-text-stroke: 1px rgb(211, 183, 0);
+  color: transparent;
+}
+.stroke-text2 {
+  -webkit-text-stroke: 1px rgb(0, 150, 136);
+  color: transparent;
+}
+
+.stroke-text3 {
+  -webkit-text-stroke: 1px white;
+  color: transparent;
+}
+
+.stroke-text4 {
+  -webkit-text-stroke: 1.5px rgb(222, 163, 14);
+  color: #ffcd608b;
+}
+
+.stroke-text5{
+  -webkit-text-stroke: 1.5px rgb(0, 147, 132);
+  color: #03c07183;
+}
+.stroke-text6 {
+  -webkit-text-stroke: 1px rgb(204, 204, 204);
+  color: oklch(70.708% 0.02244 261.79 / 0.54);
+}
+
+.text-gradient {
+  background: linear-gradient(oklch(68.1% 0.162 75.834/0.6), oklch(59.6% 0.145 163.225/0.6));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+
+
