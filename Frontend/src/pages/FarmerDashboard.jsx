@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import FarmerNavbar from "../components/Common/FarmerNavbar";
 import CropPricesCarousel from "../components/Core/farmerDashboard/CropPricesCarousel";
 import CropDiseaseDetectionCard from "../components/Core/farmerDashboard/CropConditionCard";
-import SoilHealthTestCard from "../components/Core/farmerDashboard/LoanStatusCard";
+import SoilHealthTestCard from "../components/Core/farmerDashboard/SoilHealthCard";
 import GovernmentSchemes from "../components/Core/farmerDashboard/GovernmentSchemes";
 import CreditScoreWidget from "../components/Core/farmerDashboard/CreditScoreWidget";
 
@@ -107,7 +107,7 @@ const FarmerDashboard = () => {
       <CreditScoreWidget creditScore={loanStatus.creditScore} />
 
       {/* Main Content */}
-      <div className="relative z-10 pt-8 pb-12 px-4 overflow-x-hidden">
+      <div className="relative z-10 pt-8 pb-12 px-4">
         <div className="max-w-7xl mx-auto min-w-0">
           <header className="mb-8">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-400 leading-tight">
