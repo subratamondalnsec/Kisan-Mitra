@@ -55,51 +55,48 @@ const InstallPWA = () => {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-w-sm animate-slide-up">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-4 border border-gray-200 dark:border-gray-700">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center">
-              <Download className="w-6 h-6 text-white" />
+    <div className="fixed bottom-4 right-4 z-50 max-w-xs animate-slide-up">
+      <div className="backdrop-blur-md border border-gray-600 bg-[#010101] rounded-lg shadow-2xl p-3">
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-gradient-to-br from-brand-teal to-brand-golden rounded flex items-center justify-center">
+              <img src="/logo.png" alt="" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white">
+              <h3 className="font-semibold text-gray-400 text-sm">
                 Install Kisan Mitra
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Get quick access anytime
-              </p>
             </div>
           </div>
           <button
             onClick={handleDismiss}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            className="bg-gray-600 text-gray-400 hover:text-gray-300 transition-colors rounded-full p-1 ml-1"
             aria-label="Dismiss"
           >
-            <X className="w-5 h-5" />
+            <X className="w-2 h-2" />
           </button>
         </div>
         
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-            <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-            <span>Works offline</span>
+        <div className="space-y-1 mb-3">
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span className="w-1 h-1 bg-brand-teal rounded-full"></span>
+            <span>Offline farming tools</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-            <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-            <span>Faster loading</span>
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span className="w-1 h-1 bg-brand-teal rounded-full"></span>
+            <span>Faster crop analysis</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-            <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span className="w-1 h-1 bg-brand-teal rounded-full"></span>
             <span>Home screen access</span>
           </div>
         </div>
 
         <button
           onClick={handleInstallClick}
-          className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+          className="w-full bg-brand-teal/20 backdrop-blur-md border border-brand-teal/40 hover:bg-brand-teal/30 text-gray-300 font-medium py-2 px-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
         >
-          <Download className="w-4 h-4" />
+          <Download className="w-3 h-3" />
           Install App
         </button>
       </div>
