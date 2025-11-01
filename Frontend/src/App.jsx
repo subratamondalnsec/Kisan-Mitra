@@ -16,6 +16,7 @@ import "./App.css";
 import AgentDashboard from './pages/AgentDashboard';
 import FarmerDashboard from './pages/FarmerDashboard';
 import InstantLoan from './pages/InstantLoan';
+import DashboardRefactored from './pages/DashboardRefactored';
 import InstallPWA from './components/InstallPWA';
 import OfflineIndicator from './components/OfflineIndicator';
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/agent/dashboard" element={<AgentDashboard/>} />
         <Route path="/farmer/dashboard" element={<FarmerDashboard/>} />
         <Route path="/farmer/loan" element={<InstantLoan/>} />
+        <Route path="/dashboard" element={<DashboardRefactored/>} />
       </Routes>
       
       {/* PWA Components */}

@@ -13,6 +13,7 @@ const farmerRoutes = require('./routes/farmerRoutes');
 const cropRoutes = require('./routes/cropRoutes');
 const cropDiseasesRoutes = require('./routes/CropDiseasesRoutes');
 const soilHealthRoutes = require('./routes/soilHealthRoutes');
+const firebaseRoutes = require('./routes/firebaseRoutes');
 
 
 const allowedOrigins = [
@@ -51,6 +52,7 @@ app.use('/api/v1/farmer', farmerRoutes);
 app.use('/api/v1/crops', cropRoutes);
 app.use('/api/v1/crop-diseases', cropDiseasesRoutes);
 app.use('/api/v1/soil-health', soilHealthRoutes);
+app.use('/api/v1/firebase-images', firebaseRoutes);
 // app.use('/api/v1/agent',agentRoutes);
 
 const PORT = process.env.PORT || 4000;
