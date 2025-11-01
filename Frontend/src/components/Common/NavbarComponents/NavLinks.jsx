@@ -26,12 +26,8 @@ const NavLinks = () => {
 
   const getLinkClasses = (path) => {
     const baseClasses = "w-full text-left px-6 py-2 rounded-lg transition-all duration-300 font-medium";
-    const activeClasses = isDarkMode 
-      ? "text-white bg-gray-600/50 border border-gray-500/30"
-      : "text-gray-700 bg-gray-200/50 border border-gray-300/30";
-    const inactiveClasses = isDarkMode
-      ? "text-gray-300 hover:bg-gray-600/50"
-      : "text-gray-500 hover:bg-gray-300/50";
+    const activeClasses = "text-gray-300 bg-brand-teal/20 border border-brand-teal/40";
+    const inactiveClasses = "text-gray-400 hover:bg-gray-600/50";
     
     return `${baseClasses} ${isActive(path) ? activeClasses : inactiveClasses}`;
   };
@@ -41,11 +37,7 @@ const NavLinks = () => {
       {/* Mobile Navigation Toggle - matches navbar.jsx button style */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className={`md:hidden p-2 backdrop-blur-md rounded-md transition ${
-          isDarkMode
-            ? 'text-gray-300 hover:text-white hover:bg-gray-600/50'
-            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-300/50'
-        }`}
+        className="md:hidden p-2 backdrop-blur-md rounded-md transition text-gray-400 hover:text-gray-300 hover:bg-gray-600/50"
       >
         <svg 
           className="w-6 h-6" 
@@ -65,23 +57,15 @@ const NavLinks = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-50 bg-black/50 animate-fadeIn" onClick={() => setIsMobileMenuOpen(false)}>
           <div 
-            className={`fixed right-0 top-0 h-full w-64 backdrop-blur-md shadow-2xl transform transition-transform duration-300 ease-out ${
-              isDarkMode ? 'bg-gray-800/95' : 'bg-white/95'
-            }`}
+            className="fixed right-0 top-0 h-full w-64 backdrop-blur-md shadow-2xl transform transition-transform duration-300 ease-out bg-[#010101]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-8">
-                <h2 className={`text-xl font-bold ${
-                  isDarkMode ? 'text-white' : 'text-gray-900'
-                }`}>Navigation</h2>
+                <h2 className="text-xl font-bold text-gray-400">Navigation</h2>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`p-2 rounded-lg transition ${
-                    isDarkMode
-                      ? 'text-gray-300 hover:text-white hover:bg-gray-600/30'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200/30'
-                  }`}
+                  className="p-2 rounded-lg transition text-gray-400 hover:text-gray-300 hover:bg-gray-600/30"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -90,9 +74,7 @@ const NavLinks = () => {
               </div>
               
               {/* Mobile Navigation - matches center pills design */}
-              <div className={`space-y-1 backdrop-blur-sm rounded-xl px-2 py-2 ${
-                isDarkMode ? 'bg-gray-700/20' : 'bg-white/20'
-              }`}>
+              <div className="space-y-1 backdrop-blur-sm rounded-xl px-2 py-2 bg-gray-700/20">
                 {navLinks.map((link) => (
                   <button
                     key={link.path}
