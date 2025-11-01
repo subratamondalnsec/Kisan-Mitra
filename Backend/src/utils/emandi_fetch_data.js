@@ -128,6 +128,7 @@ const GEMINI_MODEL_NAME = process.env.GEMINI_MODEL_NAME || "gemini-2.5-flash";
  */
 exports.getBestMarketsWithGemini=async({ data, farmerLocation })=> {
   try {
+    console.log('call gemini')
     if (!Array.isArray(data) || data.length === 0) return "NOT_ENOUGH";
     if (!farmerLocation || !farmerLocation.state) return "NOT_ENOUGH";
 
@@ -160,7 +161,7 @@ Task:
       maxOutputTokens: 400,
     });
 
-    // console.log(response.top_5_markets)
+    console.log(response.top_5_markets)
 
     const text = response.text?.trim();
     if (!text) return { rawResponse: "EMPTY_RESPONSE" };
@@ -174,7 +175,7 @@ Task:
       return { rawResponse: text };
     }
   } catch (err) {
-    console.error("❌ Error in getBestMarketsWithGemini:", err);
+    console.log("❌ Error in getBestMarketsWithGemini:", err);
     return { error: err.message };
   }
 }
