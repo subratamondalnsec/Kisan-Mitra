@@ -5,8 +5,10 @@ import CropDiseaseDetectionCard from "../components/Core/farmerDashboard/CropCon
 import SoilHealthTestCard from "../components/Core/farmerDashboard/SoilHealthCard";
 import GovernmentSchemes from "../components/Core/farmerDashboard/GovernmentSchemes";
 import CreditScoreWidget from "../components/Core/farmerDashboard/CreditScoreWidget";
+import { useTranslation } from "../hooks/useTranslation";
 
 const FarmerDashboard = () => {
+  const { t } = useTranslation();
 
   const cropPrices = useMemo(
     () => [
@@ -111,7 +113,7 @@ const FarmerDashboard = () => {
         <div className="max-w-7xl mx-auto min-w-0">
           <header className="mb-8">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-400 leading-tight">
-              <span className="stroke-text1">Farmer</span> <span className="stroke-text2">Dashboard</span>
+              <span className="stroke-text1">{t('farmerDashboard').split(' ')[0]}</span> <span className="stroke-text2">{t('farmerDashboard').split(' ')[1] || 'Dashboard'}</span>
             </h1>
           </header>
 

@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { Camera, Leaf, TrendingUp, Eye, CheckCircle } from "lucide-react";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const CropDiseaseDetectionCard = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleNavigate = () => {
     navigate("/crop-disease-detection");
@@ -21,7 +23,7 @@ const CropDiseaseDetectionCard = () => {
       <CardHeader>
         <CardTitle className="text-gray-400 text-xl font-semibold flex items-center gap-2">
           <Leaf className="h-5 w-5 text-brand-teal" />
-          Crop Disease Detection
+          {t('cropDiseaseDetection')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -29,7 +31,7 @@ const CropDiseaseDetectionCard = () => {
           {/* Recent Images Section */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-400 font-medium">Recent Captures</span>
+              <span className="text-gray-400 font-medium">{t('recentCaptures') || 'Recent Captures'}</span>
               <Button 
                 onClick={handleViewAllImages}
                 variant="ghost" 
@@ -37,7 +39,7 @@ const CropDiseaseDetectionCard = () => {
                 className="text-xs text-brand-teal p-1 h-auto bg-brand-teal/20 backdrop-blur-md border-brand-teal/40"
               >
                 <Eye className="h-3 w-3 mr-1" />
-                View All
+                {t('viewAll') || 'View All'}
               </Button>
             </div>
             <div className="grid grid-cols-3 gap-2">
@@ -74,10 +76,10 @@ const CropDiseaseDetectionCard = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-400" />
-                  <span className="text-green-400 font-medium">Crop Health</span>
+                  <span className="text-green-400 font-medium">{t('cropHealth') || 'Crop Health'}</span>
                 </div>
                 <Badge className="bg-green-500/20 text-green-300 border-green-500/40">
-                  Good
+                  {t('good')}
                 </Badge>
               </div>
             </CardContent>
@@ -87,7 +89,7 @@ const CropDiseaseDetectionCard = () => {
           <div className="border-t border-gray-600 pt-4">
             <div className="text-gray-400 mb-3 font-medium flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Crop Health Enhancement Plan
+              {t('cropHealthEnhancementPlan') || 'Crop Health Enhancement Plan'}
             </div>
             <div className="space-y-3">
               <div className="flex items-start gap-3 p-3 bg-green-500/5 rounded-lg border border-green-500/20">

@@ -4,12 +4,14 @@ import NavLinks from './NavbarComponents/NavLinks';
 import LanguageSelector from './NavbarComponents/LanguageSelector';
 import ProfileDropdown from './NavbarComponents/ProfileDropdown';
 import { useDarkMode } from '../../contexts/DarkModeContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const FarmerNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeSection, setActiveSection] = useState('dashboard');
   const { isDarkMode } = useDarkMode();
+  const { t } = useTranslation();
 
   const handleLogoClick = () => {
     navigate('/');
@@ -46,10 +48,10 @@ const FarmerNavbar = () => {
   };
 
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', path: '/farmer/dashboard' },
-    { id: 'crop-analysis', label: 'Crop Analysis', path: '/farmer/crop-analysis' },
-    { id: 'loan', label: 'Instant Loan', path: '/farmer/loan' },
-    { id: 'emandi', label: 'e-Mandi', path: '/farmer/emandi' }
+    { id: 'dashboard', label: t('dashboard'), path: '/farmer/dashboard' },
+    { id: 'crop-analysis', label: t('cropAnalysis'), path: '/farmer/crop-analysis' },
+    { id: 'loan', label: t('instantLoan'), path: '/farmer/loan' },
+    { id: 'emandi', label: t('eEmandi'), path: '/farmer/emandi' }
   ];
 
   return (

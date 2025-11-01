@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Download, X } from 'lucide-react';
 import { promptInstall, isAppInstalled } from '../registerSW';
+import { useTranslation } from '../hooks/useTranslation';
 
 const InstallPWA = () => {
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if app is already installed
@@ -64,7 +66,7 @@ const InstallPWA = () => {
             </div>
             <div>
               <h3 className="font-semibold text-gray-400 text-sm">
-                Install Kisan Mitra
+                {t('installApp')}
               </h3>
             </div>
           </div>
@@ -80,15 +82,15 @@ const InstallPWA = () => {
         <div className="space-y-1 mb-3">
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <span className="w-1 h-1 bg-brand-teal rounded-full"></span>
-            <span>Offline farming tools</span>
+            <span>{t('worksOffline')}</span>
           </div>
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <span className="w-1 h-1 bg-brand-teal rounded-full"></span>
-            <span>Faster crop analysis</span>
+            <span>{t('fasterLoading')}</span>
           </div>
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <span className="w-1 h-1 bg-brand-teal rounded-full"></span>
-            <span>Home screen access</span>
+            <span>{t('homeScreenAccess')}</span>
           </div>
         </div>
 
@@ -97,7 +99,7 @@ const InstallPWA = () => {
           className="w-full bg-brand-teal/20 backdrop-blur-md border border-brand-teal/40 hover:bg-brand-teal/30 text-gray-300 font-medium py-2 px-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
         >
           <Download className="w-3 h-3" />
-          Install App
+          {t('installApp')}
         </button>
       </div>
     </div>

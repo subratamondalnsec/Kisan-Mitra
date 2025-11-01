@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { Beaker, Droplets, BarChart3, TrendingUp, AlertTriangle } from "lucide-react";
 import { ref, onValue } from "firebase/database";
 import { db } from "../../../firebase";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const SoilHealthTestCard = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [firebaseData, setFirebaseData] = useState(null);
   const [loading, setLoading] = useState(true);
   const PATH = "farmData/latest";
@@ -51,13 +53,13 @@ const SoilHealthTestCard = () => {
 
   // Calculate soil quality based on NPK values
   const calculateSoilQuality = () => {
-    if (!firebaseData) return { level: "Unknown", color: "gray" };
+    if (!firebaseData) return { level: t("unknown"), color: "gray" };
     
     const avgNPK = (sensorData.N + sensorData.P + sensorData.K) / 3;
-    if (avgNPK >= 50) return { level: "Excellent", color: "green" };
-    if (avgNPK >= 35) return { level: "Good", color: "blue" };
-    if (avgNPK >= 25) return { level: "Moderate", color: "yellow" };
-    return { level: "Poor", color: "red" };
+    if (avgNPK >= 50) return { level: t("excellent"), color: "green" };
+    if (avgNPK >= 35) return { level: t("good"), color: "blue" };
+    if (avgNPK >= 25) return { level: t("moderate"), color: "yellow" };
+    return { level: t("poor"), color: "red" };
   };
 
   const soilQuality = calculateSoilQuality();
@@ -71,7 +73,7 @@ const SoilHealthTestCard = () => {
       <CardHeader>
         <CardTitle className="text-gray-400 text-xl font-semibold flex items-center gap-2">
           <Beaker className="h-5 w-5 text-brand-teal" />
-          Soil Health Test
+          {t('soilHealthTest')}
           {firebaseData && (
             <div className="flex items-center gap-1 ml-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -87,7 +89,7 @@ const SoilHealthTestCard = () => {
             <Card className="bg-brand-teal/10 border-brand-teal/30">
               <CardContent className="p-3 text-center">
                 <div className="text-brand-teal text-xs font-medium mb-1 flex items-center justify-center gap-1">
-                  Nitrogen (N)
+                  {t('nitrogen')}
                   {loading && <div className="w-2 h-2 bg-brand-teal rounded-full animate-pulse"></div>}
                 </div>
                 <div className="text-foreground font-bold text-lg">{sensorData.N}</div>
@@ -97,7 +99,7 @@ const SoilHealthTestCard = () => {
             <Card className="bg-orange-500/10 border-orange-500/30">
               <CardContent className="p-3 text-center">
                 <div className="text-orange-400 text-xs font-medium mb-1 flex items-center justify-center gap-1">
-                  Phosphorus (P)
+                  {t('phosphorus')}
                   {loading && <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>}
                 </div>
                 <div className="text-foreground font-bold text-lg">{sensorData.P}</div>
@@ -107,7 +109,7 @@ const SoilHealthTestCard = () => {
             <Card className="bg-purple-500/10 border-purple-500/30">
               <CardContent className="p-3 text-center">
                 <div className="text-purple-400 text-xs font-medium mb-1 flex items-center justify-center gap-1">
-                  Potassium (K)
+                  {t('potassium')}
                   {loading && <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>}
                 </div>
                 <div className="text-foreground font-bold text-lg">{sensorData.K}</div>
@@ -117,7 +119,7 @@ const SoilHealthTestCard = () => {
             <Card className="bg-blue-500/10 border-blue-500/30">
               <CardContent className="p-3 text-center">
                 <div className="text-blue-400 text-xs font-medium mb-1 flex items-center justify-center gap-1">
-                  Humidity
+                  {t('humidity')}
                   {loading && <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>}
                 </div>
                 <div className="text-foreground font-bold text-lg">{sensorData.humidity}</div>
@@ -127,7 +129,7 @@ const SoilHealthTestCard = () => {
             <Card className="bg-orange-500/10 border-orange-500/30">
               <CardContent className="p-3 text-center">
                 <div className="text-orange-400 text-xs font-medium mb-1 flex items-center justify-center gap-1">
-                  Temperature
+                  {t('temperature')}
                   {loading && <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>}
                 </div>
                 <div className="text-foreground font-bold text-lg">{sensorData.temperature}</div>
@@ -137,7 +139,7 @@ const SoilHealthTestCard = () => {
              <Card className="bg-brand-teal/10 border-brand-teal/30">
               <CardContent className="p-3 text-center">
                 <div className="text-brand-teal text-xs font-medium mb-1 flex items-center justify-center gap-1">
-                  pH Level
+                  {t('phLevel')}
                   {loading && <div className="w-2 h-2 bg-brand-teal rounded-full animate-pulse"></div>}
                 </div>
                 <div className="text-foreground font-bold text-lg">{sensorData.pH}</div>
@@ -152,7 +154,7 @@ const SoilHealthTestCard = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <AlertTriangle className={`h-4 w-4 text-${soilQuality.color}-400`} />
-                  <span className={`text-${soilQuality.color}-400 font-medium`}>Soil Quality</span>
+                  <span className={`text-${soilQuality.color}-400 font-medium`}>{t('soilQuality')}</span>
                   {firebaseData && (
                     <div className="flex items-center gap-1">
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -171,13 +173,13 @@ const SoilHealthTestCard = () => {
           <div className="border-t border-gray-600 pt-4">
             <div className="text-gray-400 mb-3 font-medium flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Soil Improvement Action Plan
+              {t('soilImprovementActionPlan')}
             </div>
             <div className="space-y-3">
               <div className="flex items-start gap-3 p-3 bg-brand-teal/5 rounded-lg border border-brand-teal/20">
                 <div className="flex-shrink-0 w-6 h-6 bg-brand-teal/20 rounded-full flex items-center justify-center text-brand-teal text-xs font-bold">1</div>
                 <div>
-                  <div className="text-gray-300 text-sm font-medium mb-1">Nitrogen Enhancement</div>
+                  <div className="text-gray-300 text-sm font-medium mb-1">{t('nitrogenEnhancement')}</div>
                   <div className="text-gray-400 text-xs">Add 2-3 kg organic compost per square meter to boost nitrogen content and improve soil structure</div>
                 </div>
               </div>
@@ -185,7 +187,7 @@ const SoilHealthTestCard = () => {
               <div className="flex items-start gap-3 p-3 bg-orange-500/5 rounded-lg border border-orange-500/20">
                 <div className="flex-shrink-0 w-6 h-6 bg-orange-500/20 rounded-full flex items-center justify-center text-orange-400 text-xs font-bold">2</div>
                 <div>
-                  <div className="text-gray-300 text-sm font-medium mb-1">Phosphorus Supplementation</div>
+                  <div className="text-gray-300 text-sm font-medium mb-1">{t('phosphorusSupplementation')}</div>
                   <div className="text-gray-400 text-xs">Apply bone meal or rock phosphate fertilizer 2 weeks before planting season for optimal root development</div>
                 </div>
               </div>
@@ -193,7 +195,7 @@ const SoilHealthTestCard = () => {
               <div className="flex items-start gap-3 p-3 bg-purple-500/5 rounded-lg border border-purple-500/20">
                 <div className="flex-shrink-0 w-6 h-6 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400 text-xs font-bold">3</div>
                 <div>
-                  <div className="text-gray-300 text-sm font-medium mb-1">Potassium Balance</div>
+                  <div className="text-gray-300 text-sm font-medium mb-1">{t('potassiumBalance')}</div>
                   <div className="text-gray-400 text-xs">Maintain current potassium levels with wood ash or potassium sulfate as needed during growing season</div>
                 </div>
               </div>
@@ -201,7 +203,7 @@ const SoilHealthTestCard = () => {
               <div className="flex items-start gap-3 p-3 bg-blue-500/5 rounded-lg border border-blue-500/20">
                 <div className="flex-shrink-0 w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400 text-xs font-bold">4</div>
                 <div>
-                  <div className="text-gray-300 text-sm font-medium mb-1">pH & Drainage Management</div>
+                  <div className="text-gray-300 text-sm font-medium mb-1">{t('phDrainageManagement')}</div>
                   <div className="text-gray-400 text-xs">Install proper drainage systems and add lime if pH drops below 6.0 to maintain optimal growing conditions</div>
                 </div>
               </div>
@@ -209,7 +211,7 @@ const SoilHealthTestCard = () => {
               <div className="flex items-start gap-3 p-3 bg-green-500/5 rounded-lg border border-green-500/20">
                 <div className="flex-shrink-0 w-6 h-6 bg-green-500/20 rounded-full flex items-center justify-center text-green-400 text-xs font-bold">5</div>
                 <div>
-                  <div className="text-gray-300 text-sm font-medium mb-1">Regular Monitoring</div>
+                  <div className="text-gray-300 text-sm font-medium mb-1">{t('regularMonitoring')}</div>
                   <div className="text-gray-400 text-xs">Test soil every 3 months and adjust fertilization based on crop requirements and seasonal changes</div>
                 </div>
               </div>

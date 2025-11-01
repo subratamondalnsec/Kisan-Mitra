@@ -19,11 +19,13 @@ import InstantLoan from './pages/InstantLoan';
 import InstallPWA from './components/InstallPWA';
 import OfflineIndicator from './components/OfflineIndicator';
 import CropImagesGallery from './pages/CropImagesGallery';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
+    <LanguageProvider>
+      <div className="App">
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/farmer/profile" element={<FarmerProfile />} />
@@ -42,10 +44,11 @@ function App() {
         <Route path="/farmer/loan" element={<InstantLoan/>} />
       </Routes>
       
-      {/* PWA Components */}
-      <InstallPWA />
-      <OfflineIndicator />
-    </div>
+        {/* PWA Components */}
+        <InstallPWA />
+        <OfflineIndicator />
+      </div>
+    </LanguageProvider>
   );
 }
 

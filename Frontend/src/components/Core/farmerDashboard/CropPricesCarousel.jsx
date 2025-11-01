@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const CropPriceCard = ({ crop, index }) => {
   const isUp = crop.change >= 0;
@@ -30,14 +31,16 @@ const CropPriceCard = ({ crop, index }) => {
 };
 
 const CropPricesCarousel = ({ cropPrices }) => {
+  const { t } = useTranslation();
+  
   return (
     <section aria-labelledby="best-crop-prices" className="border border-gray-600 px-4 py-4 rounded-lg">
       <div className="flex items-center justify-between mb-3">
         <h2 id="best-crop-prices" className="text-gray-400 text-xl font-semibold">
-          Best Crop Prices
+          {t('marketPrices')}
         </h2>
         <Badge variant="outline" className="text-xs text-gray-500">
-          Live Data
+          {t('liveData')}
         </Badge>
       </div>
 

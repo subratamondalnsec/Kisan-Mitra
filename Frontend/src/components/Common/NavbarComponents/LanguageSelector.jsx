@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useDarkMode } from '../../../contexts/DarkModeContext';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 const LanguageSelector = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('english');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { isDarkMode } = useDarkMode();
+  const { currentLanguage, changeLanguage } = useLanguage();
 
   const languages = [
-    { code: 'english', name: 'English' },
-    { code: 'hindi', name: 'हिंदी' },
-    { code: 'bengali', name: 'বাংলা' }
+    { code: 'english', name: 'English', flag: '🇺🇸' },
+    { code: 'hindi', name: 'हिंदी', flag: '🇮🇳' },
+    { code: 'bengali', name: 'বাংলা', flag: '🇧🇩' }
   ];
 
   const handleLanguageChange = (language) => {
-    setSelectedLanguage(language.code);
+    changeLanguage(language.code);
     setIsDropdownOpen(false);
     console.log('Language changed to:', language.code);
   };
@@ -39,11 +40,11 @@ const LanguageSelector = () => {
             : 'bg-white/30 border-gray-300 text-gray-600 hover:bg-gray-100/30 hover:text-gray-700'
         }`}
       >
-        {/* <span className="text-lg">
-          {languages.find(lang => lang.code === selectedLanguage)?.flag}
-        </span> */}
+        <span className="text-lg">
+          {languages.find(lang => lang.code === currentLanguage)?.flag}
+        </span>
         <span className="text-sm font-medium hidden sm:block">
-          {languages.find(lang => lang.code === selectedLanguage)?.name}
+          {languages.find(lang => lang.code === currentLanguage)?.name}
         </span>
         <svg 
           className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
@@ -66,7 +67,7 @@ const LanguageSelector = () => {
               key={language.code}
               onClick={() => handleLanguageChange(language)}
               className={`w-full flex items-center space-x-3 px-4 py-2.5 transition-all duration-300 ${
-                selectedLanguage === language.code 
+                currentLanguage === language.code 
                   ? isDarkMode 
                     ? 'bg-gray-600/50 text-white border border-gray-500/30' 
                     : 'bg-gray-200/50 text-gray-700 border border-gray-300/30'
@@ -77,7 +78,7 @@ const LanguageSelector = () => {
             >
               <span className="text-lg">{language.flag}</span>
               <span className="font-medium">{language.name}</span>
-              {selectedLanguage === language.code && (
+              {currentLanguage === language.code && (
                 <svg className={`w-4 h-4 ml-auto ${
                   isDarkMode ? 'text-white' : 'text-gray-700'
                 }`} fill="currentColor" viewBox="0 0 20 20">
