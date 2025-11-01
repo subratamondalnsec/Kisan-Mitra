@@ -18,6 +18,7 @@ import FarmerDashboard from './pages/FarmerDashboard';
 import InstantLoan from './pages/InstantLoan';
 import InstallPWA from './components/InstallPWA';
 import OfflineIndicator from './components/OfflineIndicator';
+import LiveData from "./components/LiveData";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/agent/dashboard" element={<AgentDashboard/>} />
         <Route path="/farmer/dashboard" element={<FarmerDashboard/>} />
         <Route path="/farmer/loan" element={<InstantLoan/>} />
+        <Route path="/live-data" element={<LiveData/>} />
       </Routes>
       
       {/* PWA Components */}
