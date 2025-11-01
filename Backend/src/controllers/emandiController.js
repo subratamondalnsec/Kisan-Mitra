@@ -94,6 +94,7 @@ exports.getMarkets = async (req, res) => {
 
 exports.getBestMarkets = async (req, res) => {
   try {
+    console.log("call get best markets")
     const { data, farmerLocation } = req.body;
 
     // ✅ Validate inputs
@@ -110,7 +111,7 @@ exports.getBestMarkets = async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    console.error("❌ Gemini Market Advisor Error:", error.message);
+    console.log("❌ Gemini Market Advisor Error:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
