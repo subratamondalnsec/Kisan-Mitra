@@ -190,37 +190,6 @@ const CropImagesGallery = () => {
                     </div>
 
                     <p className="text-gray-400 text-sm">{image.analysis}</p>
-
-                    <div className="space-y-2">
-                      <div className="text-gray-400 text-xs font-medium">Recommendations:</div>
-                      <ul className="space-y-1">
-                        {image.recommendations.slice(0, 2).map((rec, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-gray-400 text-xs">
-                            <span className="text-brand-teal">•</span>
-                            <span>{rec}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="flex gap-2 pt-2">
-                      <Button
-                        onClick={() => setSelectedImage(image)}
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 bg-brand-teal/20 border-brand-teal/40 text-gray-300 hover:bg-brand-teal/30"
-                      >
-                        <Eye className="h-3 w-3 mr-1" />
-                        View Details
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-gray-700/50 border-gray-600 text-gray-300 hover:bg-gray-700"
-                      >
-                        <Download className="h-3 w-3" />
-                      </Button>
-                    </div>
                   </div>
                 </CardContent>
               </Card>

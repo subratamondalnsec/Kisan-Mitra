@@ -13,7 +13,7 @@ const {
 
 // Import auth middleware
 const { auth } = require('../middlewares/auth');
-const { getAgmarknetData, getGeographies, getMarketPrices,getMarkets,getBestMarkets } = require('../controllers/emandiController');
+const { getAgmarknetData, getGeographies, getMarketPrices,getMarkets,getBestMarkets, getBestCrops } = require('../controllers/emandiController');
 const { getBestMarketsForFarmer } = require('../utils/emandi_fetch_data');
 
 // Public routes (no authentication required)
@@ -33,6 +33,9 @@ router.get('/get-emandi/geographies',getGeographies);
 router.post('/get-emandi/market-prices',getMarketPrices);
 router.post('/get-emandi/markets',getMarkets)
 router.post('/get-emandi/best-markets',getBestMarkets)
+
+// get best crop
+router.post('/get-best-crop',getBestCrops)
 
 
 module.exports = router;
