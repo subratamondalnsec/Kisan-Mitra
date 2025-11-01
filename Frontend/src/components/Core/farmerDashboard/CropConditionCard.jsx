@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,8 @@ import { useTranslation } from "../../../hooks/useTranslation";
 const CropDiseaseDetectionCard = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const handleNavigate = () => {
     navigate("/crop-disease-detection");
@@ -18,8 +20,17 @@ const CropDiseaseDetectionCard = () => {
     navigate("/crop-images-gallery");
   };
 
+  const handleConnectDrone = () => {
+    setIsConnecting(true);
+    // After 5 seconds, hide the overlay and show the content
+    setTimeout(() => {
+      setShowOverlay(false);
+      setIsConnecting(false);
+    }, 5000);
+  };
+
   return (
-    <Card className="backdrop-blur-md border border-gray-600">
+    <Card className="backdrop-blur-md border border-gray-600 relative">
       <CardHeader>
         <CardTitle className="text-gray-400 text-xl font-semibold flex items-center gap-2">
           <Leaf className="h-5 w-5 text-brand-teal" />
@@ -143,6 +154,44 @@ const CropDiseaseDetectionCard = () => {
           </div>
         </div>
       </CardContent>
+
+      {/* Drone Connection Overlay */}
+      {showOverlay && (
+        <div className="absolute inset-0 bg-[#010101]/90 backdrop-blur-sm rounded-xl flex items-center justify-center z-10">
+          <div className="text-center p-6">
+            <div className="mb-4">
+              <Camera className="h-12 w-12 text-brand-teal mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-gray-400 mb-2">
+                Drone Connection Required
+              </h3>
+              <p className="text-sm text-gray-500 mb-6">
+                Connect to drone hardware to capture and analyze crop images
+              </p>
+            </div>
+            
+            <Button
+              onClick={handleConnectDrone}
+              disabled={isConnecting}
+              className="bg-brand-teal/20 backdrop-blur-md border border-brand-teal/40 hover:bg-brand-teal/30 text-gray-300 px-6 py-2"
+            >
+              {isConnecting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-brand-teal mr-2"></div>
+                  Connecting...
+                </>
+              ) : (
+                'Connect to Drone'
+              )}
+            </Button>
+            
+            {isConnecting && (
+              <div className="mt-4 text-xs text-gray-500">
+                Establishing drone connection... Please wait 5 seconds
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </Card>
   );
 };
