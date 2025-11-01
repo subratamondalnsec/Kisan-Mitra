@@ -4,12 +4,14 @@ import NavLinks from './NavbarComponents/NavLinks';
 import LanguageSelector from './NavbarComponents/LanguageSelector';
 import ProfileDropdown from './NavbarComponents/ProfileDropdown';
 import { useDarkMode } from '../../contexts/DarkModeContext';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const FarmerNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeSection, setActiveSection] = useState('dashboard');
   const { isDarkMode } = useDarkMode();
+  const { t } = useTranslation();
 
   const handleLogoClick = () => {
     navigate('/');

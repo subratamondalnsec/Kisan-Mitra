@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useDarkMode } from '../../../contexts/DarkModeContext';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 const LanguageSelector = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('english');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { isDarkMode } = useDarkMode();
+  const { currentLanguage, changeLanguage } = useLanguage();
 
   const languages = [
-    { code: 'english', name: 'English' },
-    { code: 'hindi', name: 'हिंदी' },
-    { code: 'bengali', name: 'বাংলা' }
+    { code: 'english', name: 'English', flag: '🇺🇸' },
+    { code: 'hindi', name: 'हिंदी', flag: '🇮🇳' },
+    { code: 'bengali', name: 'বাংলা', flag: '🇧🇩' }
   ];
 
   const handleLanguageChange = (language) => {
-    setSelectedLanguage(language.code);
+    changeLanguage(language.code);
     setIsDropdownOpen(false);
     console.log('Language changed to:', language.code);
   };
@@ -35,11 +36,11 @@ const LanguageSelector = () => {
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className="language-button flex items-center space-x-2 backdrop-blur-md border pl-4 pr-2 py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.02] bg-gray-800/30 border-gray-600/60 text-gray-400 hover:bg-gray-700/30 hover:text-gray-300"
       >
-        {/* <span className="text-lg">
-          {languages.find(lang => lang.code === selectedLanguage)?.flag}
-        </span> */}
+        <span className="text-lg">
+          {languages.find(lang => lang.code === currentLanguage)?.flag}
+        </span>
         <span className="text-sm font-medium hidden sm:block">
-          {languages.find(lang => lang.code === selectedLanguage)?.name}
+          {languages.find(lang => lang.code === currentLanguage)?.name}
         </span>
         <svg 
           className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
