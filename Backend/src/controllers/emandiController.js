@@ -1,3 +1,4 @@
+const { getBestCropWithGemini } = require("../utils/crop_predict.js");
 const {
   fetchAgmarknetData,
   fetchGeographies,
@@ -115,3 +116,14 @@ exports.getBestMarkets = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.getBestCrops=async (req, res) => {
+  try {
+    const soilData = req.body;
+    const result = await getBestCropWithGemini({ soilData });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
