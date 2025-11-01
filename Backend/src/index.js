@@ -13,12 +13,16 @@ const farmerRoutes = require('./routes/farmerRoutes');
 const cropRoutes = require('./routes/cropRoutes');
 const cropDiseasesRoutes = require('./routes/CropDiseasesRoutes');
 const soilHealthRoutes = require('./routes/soilHealthRoutes');
+const firebaseRoutes = require('./routes/firebaseRoutes');
 
 
 const allowedOrigins = [
   "http://localhost:3000",//frontend port
   "http://localhost:5173",
   "http://localhost:5174",
+  "https://kisan-mitra-beta.vercel.app",  // Remove trailing slash
+  "https://kisan-mitra-5egwufuqc-subrata-mondals-projects-8cc19033.vercel.app/",       // Add your main Vercel URL
+  "kisan-mitra-git-master-subrata-mondals-projects-8cc19033.vercel.app", // Keep for compatibility
 ]
 
 app.use(
@@ -51,6 +55,7 @@ app.use('/api/v1/farmer', farmerRoutes);
 app.use('/api/v1/crops', cropRoutes);
 app.use('/api/v1/crop-diseases', cropDiseasesRoutes);
 app.use('/api/v1/soil-health', soilHealthRoutes);
+app.use('/api/v1/firebase-images', firebaseRoutes);
 // app.use('/api/v1/agent',agentRoutes);
 
 const PORT = process.env.PORT || 4000;
