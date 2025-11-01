@@ -2,18 +2,18 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDZ2aPL9cX-MxoxEHwLmepsEzA-TH6kBgs",
-  authDomain: "code-kinetics-npk.firebaseapp.com",
-  databaseURL: "https://code-kinetics-npk-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "code-kinetics-npk",
-  storageBucket: "code-kinetics-npk.firebasestorage.app",
-  messagingSenderId: "520991241849",
-  appId: "1:520991241849:web:2a27746ff12594c8d9c6a8"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
 // Explicitly pass the database URL to avoid default-instance mismatches across regions
 export const db = getDatabase(
   app,
-  "https://code-kinetics-npk-default-rtdb.asia-southeast1.firebasedatabase.app"
+  import.meta.env.VITE_FIREBASE_DATABASE_URL
 );
