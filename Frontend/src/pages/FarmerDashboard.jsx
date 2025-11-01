@@ -103,13 +103,10 @@ const FarmerDashboard = () => {
         <FarmerNavbar />
       </div>
 
-      {/* Credit Score Widget */}
-      <CreditScoreWidget creditScore={loanStatus.creditScore} />
-
       {/* Main Content */}
-      <div className="relative z-10 pt-8 pb-12 px-4">
+      <div className="relative z-10 pt-2 px-4">
         <div className="max-w-7xl mx-auto min-w-0">
-          <header className="mb-8">
+          <header className="mb-4">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-400 leading-tight">
               <span className="stroke-text1">Farmer</span> <span className="stroke-text2">Dashboard</span>
             </h1>

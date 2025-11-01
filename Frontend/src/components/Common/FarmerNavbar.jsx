@@ -35,20 +35,16 @@ const FarmerNavbar = () => {
 
   const getLinkClasses = (section) => {
     const baseClasses = "px-6 py-2 rounded-lg transition-all duration-300";
-    const activeClasses = isDarkMode 
-      ? "text-white bg-gray-600/50 border border-gray-500/50"
-      : "text-gray-700 bg-gray-200/50 border border-gray-300/50";
-    const inactiveClasses = isDarkMode
-      ? "text-gray-300 hover:bg-gray-600/30"
-      : "text-gray-600 hover:bg-gray-300/30";
+    const activeClasses = "text-gray-300 bg-brand-teal/20 border border-brand-teal/40";
+    const inactiveClasses = "text-gray-400 hover:bg-gray-600/30";
     
     return `${baseClasses} ${activeSection === section ? activeClasses : inactiveClasses}`;
   };
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', path: '/farmer/dashboard' },
-    { id: 'crop-analysis', label: 'Crop Analysis', path: '/farmer/crop-analysis' },
-    { id: 'loan', label: 'Instant Loan', path: '/farmer/loan' },
+    // { id: 'crop-analysis', label: 'Crop Analysis', path: '/farmer/crop-analysis' },
+    // { id: 'loan', label: 'Instant Loan', path: '/farmer/loan' },
     { id: 'emandi', label: 'e-Mandi', path: '/farmer/emandi' }
   ];
 
@@ -72,11 +68,7 @@ const FarmerNavbar = () => {
         </div>
 
         {/* Center Navigation - Glassmorphic design with dark mode */}
-        <div className={`hidden md:flex space-x-1 backdrop-blur-sm border rounded-xl px-2 py-2 transition-all duration-300 ${
-          isDarkMode 
-            ? 'bg-gray-800/30 border-gray-600/60' 
-            : 'bg-white/30 border-gray-300'
-        }`}>
+        <div className="hidden md:flex space-x-1 backdrop-blur-sm border rounded-xl px-2 py-2 transition-all duration-300 bg-gray-800/30 border-gray-600/60">
           {navItems.map((item) => (
             <button
               key={item.id}
