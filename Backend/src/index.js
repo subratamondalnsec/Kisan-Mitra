@@ -20,7 +20,9 @@ const allowedOrigins = [
   "http://localhost:3000",//frontend port
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://kisan-mitra-beta.vercel.app/"
+  "https://kisan-mitra-beta.vercel.app",  // Remove trailing slash
+  "https://kisan-mitra.vercel.app",       // Add your main Vercel URL
+  "https://kisan-mitra-beta.vercel.app/", // Keep for compatibility
 ]
 
 app.use(
