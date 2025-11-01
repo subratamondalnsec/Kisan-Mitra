@@ -30,8 +30,8 @@ const SchemeCard = ({ scheme }) => (
 
 const GovernmentSchemes = ({ schemes }) => {
   return (
-    <aside className="hidden lg:block w-80 flex-shrink-0">
-      <div className="sticky top-24">
+    <aside className="hidden lg:block w-80 flex-shrink-0" style={{ position: 'sticky', top: '6rem', alignSelf: 'flex-start' }}>
+      <div>
         <section className="border border-gray-600 px-4 py-4 rounded-lg">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-gray-400 text-xl font-semibold">

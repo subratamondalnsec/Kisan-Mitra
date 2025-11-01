@@ -18,6 +18,7 @@ import FarmerDashboard from './pages/FarmerDashboard';
 import InstantLoan from './pages/InstantLoan';
 import InstallPWA from './components/InstallPWA';
 import OfflineIndicator from './components/OfflineIndicator';
+import CropImagesGallery from './pages/CropImagesGallery';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/farmer/:dealerId/reviews" element={<DealerReviewsPage />} />
         <Route path="/dealer/my-reviews" element={<DealerMyReviewsPage />} />
         <Route path="/farmer/crop-analysis" element={<CropDiseaseDetection />} />
+        <Route path="/crop-images-gallery" element={<CropImagesGallery />} />
         <Route path="/farmer/soil-health" element={<SoilHealthTest />} />
         <Route path="/agent/dashboard" element={<AgentDashboard/>} />
         <Route path="/farmer/dashboard" element={<FarmerDashboard/>} />
