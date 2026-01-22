@@ -24,6 +24,7 @@ const allowedOrigins = [
   "https://kisan-mitra-5egwufuqc-subrata-mondals-projects-8cc19033.vercel.app/",       // Add your main Vercel URL
   "kisan-mitra-git-master-subrata-mondals-projects-8cc19033.vercel.app", // Keep for compatibility
    "https://kisan-mitra-app.vercel.app/",
+	"https://kisan-mitra-app.vercel.app",
 ]
 
 app.use(
