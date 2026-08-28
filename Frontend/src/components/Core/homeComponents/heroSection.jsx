@@ -175,7 +175,7 @@ const HeroSection = () => {
       ref={heroRef}
       className="fixed top-0 min-h-screen w-full flex items-center justify-center pt-15 z-1"
       style={{
-        backgroundImage: "url(/bg2.png)",
+        backgroundImage: "url(/kisan-bg.avif)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -185,7 +185,7 @@ const HeroSection = () => {
 
       {/* Drone Image */}
       <div ref={droneRef} className="fixed -top-10 left-1/2 transform -translate-x-1/2 w-full z-2">
-        <img src="/Drone1.png" alt="Drone Image" className="w-full h-full" />
+        <img src="/Drone11.png" alt="Drone Image" className="w-full h-full" />
       </div>
 
       <div className="hero-title relative z-10 max-w-full mx-auto px-12 w-full">
